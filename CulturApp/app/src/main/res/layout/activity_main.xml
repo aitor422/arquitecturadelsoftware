@@ -15,6 +15,8 @@ android:layout_height="match_parent">
     android:layout_height="match_parent"
     tools:context="com.micompany.culturapp.MainActivity">
 
+
+
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
@@ -26,6 +28,21 @@ android:layout_height="match_parent">
         mapbox:zoom="12"
         />
 
+    <ImageButton
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:maxWidth="50dp"
+        android:maxHeight="60dp"
+        android:id="@+id/burgerMenu"
+        android:src="@drawable/burgermenu"
+        android:contentDescription="burger"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="#00ffffff"/>
 
 
 </RelativeLayout>

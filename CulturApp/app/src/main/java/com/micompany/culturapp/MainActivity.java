@@ -11,6 +11,8 @@ package com.micompany.culturapp;
         import android.view.LayoutInflater;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
+        import android.widget.Button;
+        import android.widget.ImageButton;
         import android.widget.ImageView;
         import android.widget.ListView;
         import android.widget.RelativeLayout;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private ImageButton burger;
 
     /*
     * Called when a particular item from the navigation drawer
@@ -63,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        burger = (ImageButton) findViewById(R.id.burgerMenu);
+
+        //TODO abrir el menu con el click del imageButton
+
+
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
