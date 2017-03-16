@@ -43,7 +43,7 @@ android:layout_height="match_parent">
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:choiceMode="singleChoice"
-        android:background="#ffffffff" />
+        android:background="#333" />
 
 </RelativeLayout>
 

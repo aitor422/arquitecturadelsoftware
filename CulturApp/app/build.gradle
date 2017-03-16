@@ -19,12 +19,6 @@ android {
     }
 }
 
-dependencies {
-    compile files('libs/bolts-tasks-1.4.0.jar')
-    compile files('libs/parse-android-1.13.0.jar')
-    compile files('libs/parse-androidUI-Widget.jar')
-}
-
 repositories {
     mavenCentral()
 }
