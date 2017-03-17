@@ -8,6 +8,7 @@ package com.micompany.culturapp;
         import android.location.LocationManager;
         import android.support.v4.widget.DrawerLayout;
         import android.support.v7.app.ActionBarDrawerToggle;
+        import android.view.Gravity;
         import android.view.LayoutInflater;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private ImageButton burger;
+    ImageButton burger, cross;
 
     /*
     * Called when a particular item from the navigation drawer
@@ -51,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private void selectItemFromDrawer(int position) {
         Intent intent;
         switch (position) {
-            case 1:
+            case 0:
                 intent = new Intent(this, Puntuacion.class);
                 break;
-            case 2:
+            case 1:
                 intent = new Intent(this, Anadir.class);
                 break;
             default:
@@ -66,15 +67,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        burger = (ImageButton) findViewById(R.id.burgerMenu);
-
-        //TODO abrir el menu con el click del imageButton
-
-
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        burger = (ImageButton) findViewById(R.id.burgerMenu);
+        cross = (ImageButton) findViewById(R.id.backMenu);
+
+        burger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.START);
+            }
+        });
+
+        cross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.START);
+            }
+        });
 
         mapView = (MapView)findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
