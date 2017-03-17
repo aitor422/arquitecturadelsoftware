@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
+    ArrayList<NavItem> mNavItemsFoot = new ArrayList<NavItem>();
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -55,12 +56,21 @@ public class MainActivity extends AppCompatActivity {
             case 0:
                 intent = new Intent(this, Puntuacion.class);
                 break;
-            case 1:
+            default:
                 intent = new Intent(this, Anadir.class);
                 break;
+
+        }
+        startActivity(intent);
+    }
+
+    private void selectItemFromFooter(int position) {
+        Intent intent;
+        switch (position) {
             default:
                 intent = new Intent(this, Ajustes.class);
                 break;
+
         }
         startActivity(intent);
     }
@@ -99,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
         mNavItems.add(new NavItem("Puntuación"/*, "Meetup destination", R.drawable.ic_action_home*/));
         mNavItems.add(new NavItem("Añadir marcador"/*, "Change your preferences", R.drawable.ic_action_settings*/));
-        mNavItems.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
+        mNavItemsFoot.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
 
         // DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -115,6 +125,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItemFromDrawer(position);
+            }
+        });
+
+        mDrawerList = (ListView) findViewById(R.id.navListFoot);
+        DrawerListAdapter adapterFoot = new DrawerListAdapter(this, mNavItemsFoot);
+        mDrawerList.setAdapter(adapterFoot);
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItemFromFooter(position);
             }
         });
     }

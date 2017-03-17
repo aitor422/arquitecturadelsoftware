@@ -1,2 +1,5 @@
 # arquitecturadelsoftware
-irati
+
+#Contributors
+Irati Casi
+Aitor Chordá
