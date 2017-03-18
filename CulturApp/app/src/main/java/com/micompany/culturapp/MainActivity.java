@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    ImageButton burger, cross;
+    DrawerLayout mDrawerLayout;
+    ImageButton burger;
+    ImageView logo;
+
 
     /*
     * Called when a particular item from the navigation drawer
@@ -80,9 +82,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         burger = (ImageButton) findViewById(R.id.burgerMenu);
-        cross = (ImageButton) findViewById(R.id.backMenu);
+        logo = (ImageView) findViewById(R.id.logo);
 
         burger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +94,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.closeDrawer(Gravity.START);
-            }
-        });
 
         mapView = (MapView)findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -150,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+        mDrawerLayout.closeDrawer(Gravity.START);
     }
 
     @Override
