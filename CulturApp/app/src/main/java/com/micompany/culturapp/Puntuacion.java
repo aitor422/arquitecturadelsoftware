@@ -21,9 +21,11 @@ public class Puntuacion extends AppCompatActivity {
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("android.intent.action.MAIN");
-                startActivity(intent);
+                killActivity();
             }
         });
+    }
+    private void killActivity() {
+        finish();
     }
 }
