@@ -101,7 +101,11 @@
             android:layout_below="@id/cabeceramenu"
 
             />
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/navListFoot"
+            android:background="#111"/>
         <ListView
             android:id="@+id/navListFoot"
             android:layout_width="280dp"

@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:gravity="center_vertical"
         android:textColor="#aaa"
         android:text="Line 1"

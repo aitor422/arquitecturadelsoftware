@@ -46,7 +46,7 @@
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="#aaa"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             />
@@ -54,98 +54,91 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <RelativeLayout
+        android:layout_below="@+id/cabecerapuntuacion"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/cabecerapuntuacion">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/porcentaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            android:fontFamily="sans-serif-light"
+            android:text="83%"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp"
+            android:textSize="120sp"
 
-            <TextView
-                android:id="@+id/porcentaje"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="62dp"
-                android:fontFamily="sans-serif-light"
-                android:text="83%"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:paddingBottom="0dp"
-                android:paddingTop="0dp"
-                android:textSize="120sp"
+            android:layout_centerHorizontal="true" />
 
-                android:layout_centerHorizontal="true" />
-
-            <TextView
-                android:id="@+id/preguntas_acertadas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:text="preguntas acertadas"
-                android:textSize="24sp"
-                android:layout_alignTop="@+id/porcentaje"
-                android:layout_alignRight="@+id/porcentaje"
-                android:layout_alignEnd="@+id/porcentaje"
-                android:layout_marginTop="130dp" />
+        <TextView
+            android:id="@+id/preguntas_acertadas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="preguntas acertadas"
+            android:textSize="24sp"
+            android:layout_alignTop="@+id/porcentaje"
+            android:layout_alignRight="@+id/porcentaje"
+            android:layout_alignEnd="@+id/porcentaje"
+            android:layout_marginTop="130dp" />
 
 
-            <TextView
-                android:id="@+id/aciertos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="34dp"
-                android:fontFamily="sans-serif-light"
-                android:text="543"
-                android:textSize="36sp"
-                android:layout_below="@+id/preguntas_acertadas"
-                android:layout_alignLeft="@+id/preguntas_acertadas"
-                android:layout_alignStart="@+id/preguntas_acertadas" />
+        <TextView
+            android:id="@+id/aciertos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:fontFamily="sans-serif-light"
+            android:text="543"
+            android:textSize="36sp"
+            android:layout_below="@+id/preguntas_acertadas"
+            android:layout_alignLeft="@+id/preguntas_acertadas"
+            android:layout_alignStart="@+id/preguntas_acertadas" />
 
 
-            <TextView
-                android:id="@+id/intentos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/aciertos"
-                android:layout_alignStart="@+id/aciertos"
-                android:layout_below="@+id/aciertos"
-                android:layout_marginTop="32dp"
-                android:fontFamily="sans-serif-light"
-                android:text="768"
-                android:textSize="36sp" />
+        <TextView
+            android:id="@+id/intentos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/aciertos"
+            android:layout_alignStart="@+id/aciertos"
+            android:layout_below="@+id/aciertos"
+            android:layout_marginTop="32dp"
+            android:fontFamily="sans-serif-light"
+            android:text="768"
+            android:textSize="36sp" />
 
 
-            <TextView
+        <TextView
 
-                android:id="@+id/aciertos_texto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/aciertos"
-                android:layout_alignBottom="@+id/aciertos"
-                android:layout_centerHorizontal="true"
-                android:fontFamily="sans-serif-light"
-                android:text="aciertos"
-                android:textSize="24sp" />
+            android:id="@+id/aciertos_texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/aciertos"
+            android:layout_alignBottom="@+id/aciertos"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-light"
+            android:text="aciertos"
+            android:textSize="24sp" />
 
-            <TextView
+        <TextView
 
-                android:id="@+id/intentos_texto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/intentos"
-                android:layout_alignBottom="@+id/intentos"
-                android:layout_alignLeft="@+id/aciertos_texto"
-                android:layout_alignStart="@+id/aciertos_texto"
-                android:fontFamily="sans-serif-light"
-                android:text="intentos"
-                android:textSize="24sp" />
+            android:id="@+id/intentos_texto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/intentos"
+            android:layout_alignBottom="@+id/intentos"
+            android:layout_alignLeft="@+id/aciertos_texto"
+            android:layout_alignStart="@+id/aciertos_texto"
+            android:fontFamily="sans-serif-light"
+            android:text="intentos"
+            android:textSize="24sp" />
 
-        </RelativeLayout>
-
-
-    </ScrollView>
+    </RelativeLayout>
 
 
 
