@@ -1,11 +1,15 @@
 package com.micompany.culturapp;
 
 
+        import android.Manifest;
         import android.content.Context;
         import android.content.Intent;
+        import android.content.pm.PackageManager;
         import android.location.Location;
-        import android.location.LocationListener;
-        import android.location.LocationManager;
+
+        import android.support.annotation.NonNull;
+        import android.support.design.widget.FloatingActionButton;
+        import android.support.v4.app.ActivityCompat;
         import android.support.v4.widget.DrawerLayout;
         import android.support.v7.app.ActionBarDrawerToggle;
         import android.view.Gravity;
@@ -28,6 +32,8 @@ package com.micompany.culturapp;
         import com.mapbox.mapboxsdk.MapboxAccountManager;
         import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
         import com.mapbox.mapboxsdk.geometry.LatLng;
+        import com.mapbox.mapboxsdk.location.LocationListener;
+        import com.mapbox.mapboxsdk.location.LocationServices;
         import com.mapbox.mapboxsdk.maps.MapView;
         import com.mapbox.mapboxsdk.maps.MapboxMap;
         import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -36,8 +42,12 @@ package com.micompany.culturapp;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int PERMISSIONS_LOCATION = 0;
+
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
+    private LocationServices locationServices;
+    private FloatingActionButton floatingActionButton;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     ArrayList<NavItem> mNavItemsFoot = new ArrayList<NavItem>();
     ListView mDrawerList;
@@ -83,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
 
+        locationServices = LocationServices.getLocationServices(MainActivity.this);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         burger = (ImageButton) findViewById(R.id.burgerMenu);
         logo = (ImageView) findViewById(R.id.logo);
@@ -104,6 +116,17 @@ public class MainActivity extends AppCompatActivity {
                 //     mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.26977, 5.39592), 10));
             }
         });
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.location_toggle_fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mapboxMap != null) {
+                    toggleGps(!mapboxMap.isMyLocationEnabled());
+                }
+            }
+        });
+
         mNavItems.add(new NavItem("Puntuación"/*, "Meetup destination", R.drawable.ic_action_home*/));
         mNavItems.add(new NavItem("Añadir marcador"/*, "Change your preferences", R.drawable.ic_action_settings*/));
         mNavItemsFoot.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
@@ -226,6 +249,60 @@ public class MainActivity extends AppCompatActivity {
             //iconView.setImageResource(mNavItems.get(position).mIcon);
 
             return view;
+        }
+    }
+
+    private void toggleGps(boolean enableGps) {
+        if (enableGps) {
+            // Check if user has granted location permission
+            if (!locationServices.areLocationPermissionsGranted()) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
+            } else {
+                enableLocation(true);
+            }
+        } else {
+            enableLocation(false);
+        }
+    }
+
+    private void enableLocation(boolean enabled) {
+        if (enabled) {
+            // If we have the last location of the user, we can move the camera to that position.
+            Location lastLocation = locationServices.getLastLocation();
+            if (lastLocation != null) {
+                mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
+            }
+
+            locationServices.addLocationListener(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if (location != null) {
+                        // Move the map camera to where the user location is and then remove the
+                        // listener so the camera isn't constantly updating when the user location
+                        // changes. When the user disables and then enables the location again, this
+                        // listener is registered again and will adjust the camera once again.
+                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
+                        locationServices.removeLocationListener(this);
+                    }
+                }
+            });
+            floatingActionButton.setImageResource(R.drawable.ic_location_disabled_24dp);
+        } else {
+            floatingActionButton.setImageResource(R.drawable.ic_my_location_24dp);
+        }
+        // Enable or disable the location layer on the map
+        mapboxMap.setMyLocationEnabled(enabled);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableLocation(true);
+            }
         }
     }
 
