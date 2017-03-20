@@ -147,14 +147,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mapView.onResume();
-        // Comentar siguiente línea para volver a la activity con el menú abierto. //
-        mDrawerLayout.closeDrawer(Gravity.START);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mapView.onPause();
+        mDrawerLayout.closeDrawer(Gravity.START);
     }
 
     @Override
