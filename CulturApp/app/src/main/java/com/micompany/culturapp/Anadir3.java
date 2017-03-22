@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 
 public class Anadir3 extends AppCompatActivity {
     private ImageButton flecha;
+    private FloatingActionButton okay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +22,16 @@ public class Anadir3 extends AppCompatActivity {
                 killActivity();
             }
         });
-
+        okay = (FloatingActionButton) findViewById(R.id.okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO insertar en la base de datos
+                Anadir.anadir1.finish();
+                Anadir2.anadir2.finish();
+                killActivity();
+            }
+        });
     }
 
     private void killActivity() {

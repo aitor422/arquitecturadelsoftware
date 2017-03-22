@@ -10,9 +10,11 @@ import android.widget.ImageButton;
 public class Anadir2 extends AppCompatActivity {
     private ImageButton flecha;
     private FloatingActionButton alante;
+    public static Anadir2 anadir2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        anadir2 = this;
         setContentView(R.layout.activity_anadir2);
         flecha = (ImageButton) findViewById(R.id.flecha);
 
