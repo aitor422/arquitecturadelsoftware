@@ -17,6 +17,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static java.lang.Math.floor;
+import static java.lang.Math.round;
+
 public class Puntuacion extends AppCompatActivity {
 
     ImageButton flecha;
@@ -26,8 +29,8 @@ public class Puntuacion extends AppCompatActivity {
         byte[] bytes;
         String score;
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_puntuacion);
 
+        setContentView(R.layout.activity_puntuacion);
         flecha = (ImageButton) findViewById(R.id.flecha);
 
         flecha.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +41,7 @@ public class Puntuacion extends AppCompatActivity {
         });
         String FILENAME = "puntuacion";
         File fichero = getFileStreamPath(FILENAME);
-        if (fichero.exists()) {
+        if (fichero.exists()) { // Se leen los intentos y aciertos del fichero y se actualizan los text views.
             try {
                 BufferedReader in = new BufferedReader(new FileReader(fichero));
                 score = in.readLine();
@@ -48,12 +51,19 @@ public class Puntuacion extends AppCompatActivity {
                 TextView intentos = (TextView) findViewById(R.id.intentos);
                 intentos.setText(tok[1]);
                 in.close();
+                TextView porcentaje = (TextView) findViewById(R.id.porcentaje);
+                double aciertosd = Double.parseDouble(tok[0]);
+                double intentosd = Double.parseDouble(tok[1]);
+                if (intentosd != 0) {
+                    String porcen = round(aciertosd/intentosd*100) + "%";
+                    porcentaje.setText(porcen);
+                }
             }
             catch (IOException e) {
 
             }
         }
-        else {
+        else { // Si el fichero no existe se crea y se inicializa a 0
             try {
                 String string = "0-0";
                 FileOutputStream fos = new FileOutputStream(fichero);

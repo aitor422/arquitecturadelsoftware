@@ -86,7 +86,8 @@
                 android:fontFamily="sans-serif-light"
                 android:text="preguntas acertadas"
                 android:textSize="24sp"
-                android:layout_alignLeft="@+id/porcentaje"
+                android:textAlignment="center"
+                android:layout_centerHorizontal="true"
                 android:layout_below="@id/porcentaje"
                 />
         </RelativeLayout>

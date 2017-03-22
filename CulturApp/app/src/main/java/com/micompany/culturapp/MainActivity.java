@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
                 mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
                 toggleGps(!mapboxMap.isMyLocationEnabled());
-                //anadirMarcadores();
+                anadirMarcadores();//TODO
                 floatingActionButton.setVisibility(View.GONE);
             }
         });
@@ -332,6 +332,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void anadirMarcadores() {
-
+        //TODO
     }
 }
