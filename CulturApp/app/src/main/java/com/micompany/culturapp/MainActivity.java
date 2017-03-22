@@ -54,14 +54,13 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
     private LocationServices locationServices;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton, burger;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     ArrayList<NavItem> mNavItemsFoot = new ArrayList<NavItem>();
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
-    ImageButton burger;
     ImageView logo;
 
 
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         locationServices = LocationServices.getLocationServices(MainActivity.this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        burger = (ImageButton) findViewById(R.id.burgerMenu);
+        burger = (FloatingActionButton) findViewById(R.id.burgerMenu);
         logo = (ImageView) findViewById(R.id.logo);
 
         burger.setOnClickListener(new View.OnClickListener() {

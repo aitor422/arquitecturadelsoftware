@@ -37,7 +37,7 @@
 
 
         <TextView
-            android:id="@+id/puntuacion"
+            android:id="@+id/ajustes"
             android:gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
