@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Anadir">
@@ -37,7 +39,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:fontFamily="sans-serif-light"
-            android:text="Añadir"
+            android:text="Localización"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="#aaa"
@@ -48,14 +50,27 @@
 
 
     </RelativeLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/forward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/flechaalante"
-        app:backgroundTint="#0EB179"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cabeceraajustes"
+        mapbox:style_url="mapbox://styles/aitor422/ciz8b95hg00762rlr3fyjluc3"
+        mapbox:center_latitude="42.8017"
+        mapbox:center_longitude="-1.6262"
+        mapbox:tilt="20"
+        mapbox:zoom="12"
+        >
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/flechaalante"
+            app:backgroundTint="#0EB179"
+            android:layout_margin="16dp"
+            android:layout_gravity="end|bottom"/>
+
+    </com.mapbox.mapboxsdk.maps.MapView>
+
 </RelativeLayout>

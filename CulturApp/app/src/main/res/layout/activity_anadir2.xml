@@ -37,7 +37,7 @@
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:fontFamily="sans-serif-light"
-            android:text="Añadir 2"
+            android:text="Detalles"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textColor="#aaa"
@@ -48,6 +48,42 @@
 
 
     </RelativeLayout>
+
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_below="@id/cabeceraajustes"
+        android:hint="Introduzca el nombre"
+        />
+
+    <ImageView
+        android:id="@+id/imagen"
+        android:layout_width="match_parent"
+        android:layout_height="264dp"
+        android:layout_below="@id/nombre"
+        android:adjustViewBounds="true"
+        android:background="#AAA"
+
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/defaultfoto"/>
+
+    <Button
+        android:id="@+id/botonimagen"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignBottom="@+id/imagen"
+        android:layout_alignLeft="@+id/imagen"
+        android:layout_alignStart="@+id/imagen"
+        android:text="Cambiar Imagen"
+        android:fontFamily="sans-serif-light"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_alignRight="@+id/imagen"
+        android:layout_alignEnd="@+id/imagen" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/forward"
         android:layout_width="wrap_content"
