@@ -36,26 +36,21 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_margin="16dp"
-                app:backgroundTint="#111"
+                app:backgroundTint="#0EB179"
                 app:srcCompat="@drawable/ic_my_location_24dp"
                 tools:ignore="VectorDrawableCompat" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:srcCompat="@drawable/ic_menu"
+                app:backgroundTint="#0EB179"
+                android:layout_margin="16dp"/>
         </com.mapbox.mapboxsdk.maps.MapView>
 
-        <ImageButton
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="7dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:maxWidth="50dp"
-            android:maxHeight="60dp"
-            android:id="@+id/burgerMenu"
-            android:src="@drawable/burgermenu"
-            android:contentDescription="burger"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:background="#00ffffff"/>
+
 
     </RelativeLayout>
 

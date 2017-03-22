@@ -5,6 +5,7 @@ package com.micompany.culturapp;
         import android.content.Context;
         import android.content.Intent;
         import android.content.pm.PackageManager;
+        import android.graphics.Color;
         import android.location.Location;
 
         import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ package com.micompany.culturapp;
         import android.support.v7.app.ActionBarDrawerToggle;
         import android.view.Gravity;
         import android.view.LayoutInflater;
+        import android.view.MotionEvent;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
         import android.widget.Button;
@@ -30,6 +32,7 @@ package com.micompany.culturapp;
 
 
         import com.mapbox.mapboxsdk.MapboxAccountManager;
+        import com.mapbox.mapboxsdk.camera.CameraPosition;
         import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
         import com.mapbox.mapboxsdk.geometry.LatLng;
         import com.mapbox.mapboxsdk.location.LocationListener;
@@ -113,9 +116,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMapReady(MapboxMap map) {
                 mapboxMap = map;
-                //     mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.26977, 5.39592), 10));
+                mapboxMap.setOnScrollListener(new MapboxMap.OnScrollListener() {
+                    @Override
+                    public void onScroll() {
+                        floatingActionButton.setVisibility(View.VISIBLE);
+                    }
+                });
+                mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
+                mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
+                mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
+                toggleGps(!mapboxMap.isMyLocationEnabled());
+                floatingActionButton.setVisibility(View.GONE);
             }
         });
+
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.location_toggle_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -123,10 +137,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (mapboxMap != null) {
                     toggleGps(!mapboxMap.isMyLocationEnabled());
+                    floatingActionButton.setVisibility(View.GONE);
                 }
             }
         });
-
+        //floatingActionButton.setVisibility(View.GONE);
         mNavItems.add(new NavItem("Puntuación"/*, "Meetup destination", R.drawable.ic_action_home*/));
         mNavItems.add(new NavItem("Añadir marcador"/*, "Change your preferences", R.drawable.ic_action_settings*/));
         mNavItemsFoot.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
@@ -191,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
         super.onLowMemory();
         mapView.onLowMemory();
     }
+
     class NavItem {
         String mTitle;
         //String mSubtitle;
@@ -268,9 +284,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableLocation(boolean enabled) {
+        Location lastLocation;
         if (enabled) {
+            lastLocation = locationServices.getLastLocation();
             // If we have the last location of the user, we can move the camera to that position.
-            Location lastLocation = locationServices.getLastLocation();
             if (lastLocation != null) {
                 mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
             }
@@ -288,22 +305,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-            floatingActionButton.setImageResource(R.drawable.ic_location_disabled_24dp);
-        } else {
-            floatingActionButton.setImageResource(R.drawable.ic_my_location_24dp);
         }
+        else
+            lastLocation = locationServices.getLastLocation();
+            if (lastLocation != null) {
+                mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
+            }
         // Enable or disable the location layer on the map
-        mapboxMap.setMyLocationEnabled(enabled);
+        mapboxMap.setMyLocationEnabled(true);
+
+
     }
 
     @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableLocation(true);
             }
         }
     }
-
 }
