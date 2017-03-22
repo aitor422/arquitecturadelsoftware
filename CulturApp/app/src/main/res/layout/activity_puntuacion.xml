@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="62dp"
             android:fontFamily="sans-serif-light"
-            android:text="83%"
+            android:text="N/A"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:paddingBottom="0dp"
@@ -86,57 +86,62 @@
             android:layout_alignEnd="@+id/porcentaje"
             android:layout_marginTop="130dp" />
 
-
-        <TextView
-            android:id="@+id/aciertos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="34dp"
-            android:fontFamily="sans-serif-light"
-            android:text="543"
-            android:textSize="36sp"
-            android:layout_below="@+id/preguntas_acertadas"
-            android:layout_alignLeft="@+id/preguntas_acertadas"
-            android:layout_alignStart="@+id/preguntas_acertadas" />
-
-
-        <TextView
-            android:id="@+id/intentos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/aciertos"
-            android:layout_alignStart="@+id/aciertos"
-            android:layout_below="@+id/aciertos"
-            android:layout_marginTop="32dp"
-            android:fontFamily="sans-serif-light"
-            android:text="768"
-            android:textSize="36sp" />
-
-
         <TextView
 
             android:id="@+id/aciertos_texto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/aciertos"
-            android:layout_alignBottom="@+id/aciertos"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-light"
             android:text="aciertos"
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/aciertos"
+            android:gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34dp"
+            android:fontFamily="sans-serif-light"
+            android:text="0"
+            android:paddingRight="8dp"
+            android:textAlignment="textEnd"
+            android:textSize="36sp"
+            android:layout_below="@+id/preguntas_acertadas"
+            android:layout_toLeftOf="@id/aciertos_texto"
+            />
+
+        <TextView
 
             android:id="@+id/intentos_texto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/intentos"
-            android:layout_alignBottom="@+id/intentos"
-            android:layout_alignLeft="@+id/aciertos_texto"
-            android:layout_alignStart="@+id/aciertos_texto"
             android:fontFamily="sans-serif-light"
             android:text="intentos"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/aciertos"
+            android:layout_alignRight="@+id/aciertos_texto"
+            android:layout_alignEnd="@+id/aciertos_texto"
+            />
+
+        <TextView
+            android:id="@+id/intentos"
+            android:gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:paddingRight="8dp"
+            android:fontFamily="sans-serif-light"
+            android:text="0"
+            android:layout_alignBottom="@id/intentos_texto"
+            android:layout_toLeftOf="@id/intentos_texto"
+            android:layout_below="@id/aciertos"
+            android:textSize="36sp" />
+
+
+
 
     </RelativeLayout>
 

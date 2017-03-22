@@ -41,6 +41,10 @@ package com.micompany.culturapp;
         import com.mapbox.mapboxsdk.maps.MapboxMap;
         import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
+        import java.io.FileInputStream;
+        import java.io.FileNotFoundException;
+        import java.io.FileOutputStream;
+        import java.io.IOException;
         import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -126,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
                 mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
                 toggleGps(!mapboxMap.isMyLocationEnabled());
+                //anadirMarcadores();
                 floatingActionButton.setVisibility(View.GONE);
             }
         });
@@ -324,5 +329,9 @@ public class MainActivity extends AppCompatActivity {
                 enableLocation(true);
             }
         }
+    }
+
+    private void anadirMarcadores() {
+
     }
 }
