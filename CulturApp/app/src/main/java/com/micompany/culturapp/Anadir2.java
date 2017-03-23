@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -59,7 +60,11 @@ public class Anadir2 extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FromCamera();
+                try {
+                    FromCamera();
+                } catch (IOException e) {
+                    //
+                }
             }
         });
 
@@ -82,8 +87,12 @@ public class Anadir2 extends AppCompatActivity {
         finish();
     }
 
-    private void FromCamera() {
+    private void FromCamera() throws IOException {
+        File file;
+        file = File.createTempFile("temporalfoto", null, this.getCacheDir());
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(file.getPath()));
+
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }

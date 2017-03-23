@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
                 mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
                 toggleGps(!mapboxMap.isMyLocationEnabled());
-                anadirMarcadores();//TODO
+                //anadirMarcadores();//TODO
                 floatingActionButton.setVisibility(View.GONE);
             }
         });
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mapboxMap != null) {
-                    toggleGps(!mapboxMap.isMyLocationEnabled());
+                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(locationServices.getLastLocation()), 16));
                     floatingActionButton.setVisibility(View.GONE);
                 }
             }
@@ -280,52 +280,41 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
             } else {
-                enableLocation(true);
+                enableLocation();
             }
         } else {
-            enableLocation(false);
+            enableLocation();
         }
     }
 
-    private void enableLocation(boolean enabled) {
+    private void enableLocation() {
         Location lastLocation;
-        if (enabled) {
-            lastLocation = locationServices.getLastLocation();
-            // If we have the last location of the user, we can move the camera to that position.
-            if (lastLocation != null) {
-                mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
-            }
-
-            locationServices.addLocationListener(new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    if (location != null) {
-                        // Move the map camera to where the user location is and then remove the
-                        // listener so the camera isn't constantly updating when the user location
-                        // changes. When the user disables and then enables the location again, this
-                        // listener is registered again and will adjust the camera once again.
-                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
-                        locationServices.removeLocationListener(this);
-                    }
-                }
-            });
+        lastLocation = locationServices.getLastLocation();
+        // If we have the last location of the user, we can move the camera to that position.
+        if (lastLocation != null) {
+            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
         }
-        else
-            lastLocation = locationServices.getLastLocation();
-            if (lastLocation != null) {
-                mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
+
+        locationServices.addLocationListener(new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                if (location != null) {
+                    // Move the map camera to where the user location is and then remove the
+                    // listener so the camera isn't constantly updating when the user location
+                    // changes. When the user disables and then enables the location again, this
+                    // listener is registered again and will adjust the camera once again.
+                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
+                }
             }
-        // Enable or disable the location layer on the map
+        });
         mapboxMap.setMyLocationEnabled(true);
-
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableLocation(true);
+                enableLocation();
             }
         }
     }
