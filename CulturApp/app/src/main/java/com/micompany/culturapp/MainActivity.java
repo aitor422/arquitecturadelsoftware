@@ -1,51 +1,46 @@
+
 package com.micompany.culturapp;
 
 
-        import android.Manifest;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Color;
-        import android.location.Location;
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
 
-        import android.support.annotation.NonNull;
-        import android.support.design.widget.FloatingActionButton;
-        import android.support.v4.app.ActivityCompat;
-        import android.support.v4.widget.DrawerLayout;
-        import android.support.v7.app.ActionBarDrawerToggle;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
-        import android.view.MotionEvent;
-        import android.view.ViewGroup;
-        import android.widget.AdapterView;
-        import android.widget.Button;
-        import android.widget.ImageButton;
-        import android.widget.ImageView;
-        import android.widget.ListView;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
-        import android.view.View;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.widget.BaseAdapter;
-
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.view.View;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.widget.BaseAdapter;
 
 
-        import com.mapbox.mapboxsdk.MapboxAccountManager;
-        import com.mapbox.mapboxsdk.camera.CameraPosition;
-        import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
-        import com.mapbox.mapboxsdk.geometry.LatLng;
-        import com.mapbox.mapboxsdk.location.LocationListener;
-        import com.mapbox.mapboxsdk.location.LocationServices;
-        import com.mapbox.mapboxsdk.maps.MapView;
-        import com.mapbox.mapboxsdk.maps.MapboxMap;
-        import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
-        import java.io.FileInputStream;
-        import java.io.FileNotFoundException;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
-        import java.util.ArrayList;
+import com.mapbox.mapboxsdk.MapboxAccountManager;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.location.LocationListener;
+import com.mapbox.mapboxsdk.location.LocationServices;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,13 +49,14 @@ public class MainActivity extends AppCompatActivity {
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
     private LocationServices locationServices;
-    private FloatingActionButton floatingActionButton, burger;
+    private FloatingActionButton floatingActionButton;
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     ArrayList<NavItem> mNavItemsFoot = new ArrayList<NavItem>();
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
+    ImageButton burger;
     ImageView logo;
 
 
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         locationServices = LocationServices.getLocationServices(MainActivity.this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        burger = (FloatingActionButton) findViewById(R.id.burgerMenu);
+        burger = (ImageButton) findViewById(R.id.burgerMenu);
         logo = (ImageView) findViewById(R.id.logo);
 
         burger.setOnClickListener(new View.OnClickListener() {
@@ -118,34 +114,32 @@ public class MainActivity extends AppCompatActivity {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap map) {
+
                 mapboxMap = map;
+                mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
+                mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
+                mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
                 mapboxMap.setOnScrollListener(new MapboxMap.OnScrollListener() {
                     @Override
                     public void onScroll() {
                         floatingActionButton.setVisibility(View.VISIBLE);
                     }
                 });
-                mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
-                mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
-                mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
                 toggleGps(!mapboxMap.isMyLocationEnabled());
-                //anadirMarcadores();//TODO
-                floatingActionButton.setVisibility(View.GONE);
             }
         });
-
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.location_toggle_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mapboxMap != null) {
-                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(locationServices.getLastLocation()), 16));
-                    floatingActionButton.setVisibility(View.GONE);
+                    toggleGps(!mapboxMap.isMyLocationEnabled());
+                    //floatingActionButton.setVisibility(View.GONE);
                 }
             }
         });
-        //floatingActionButton.setVisibility(View.GONE);
+
         mNavItems.add(new NavItem("Puntuación"/*, "Meetup destination", R.drawable.ic_action_home*/));
         mNavItems.add(new NavItem("Añadir marcador"/*, "Change your preferences", R.drawable.ic_action_settings*/));
         mNavItemsFoot.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
@@ -210,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
         super.onLowMemory();
         mapView.onLowMemory();
     }
-
     class NavItem {
         String mTitle;
         //String mSubtitle;
@@ -279,47 +272,48 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
-            } else {
-                enableLocation();
             }
+            else
+                enableLocation(true);
         } else {
-            enableLocation();
+            enableLocation(false);
         }
     }
 
-    private void enableLocation() {
+    private void enableLocation(boolean enabled) {
         Location lastLocation;
-        lastLocation = locationServices.getLastLocation();
-        // If we have the last location of the user, we can move the camera to that position.
+        if (enabled) {
+            // If we have the last location of the user, we can move the camera to that position.
+            locationServices.addLocationListener(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if (location != null) {
+                        // Move the map camera to where the user location is and then remove the
+                        // listener so the camera isn't constantly updating when the user location
+                        // changes. When the user disables and then enables the location again, this
+                        // listener is registered again and will adjust the camera once again.
+                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
+                    }
+                }
+            });
+        }
+        lastLocation =  locationServices.getLastLocation();
+        // Enable or disable the location layer on the map
         if (lastLocation != null) {
             mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
+            floatingActionButton.setVisibility(View.GONE);
         }
-
-        locationServices.addLocationListener(new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                if (location != null) {
-                    // Move the map camera to where the user location is and then remove the
-                    // listener so the camera isn't constantly updating when the user location
-                    // changes. When the user disables and then enables the location again, this
-                    // listener is registered again and will adjust the camera once again.
-                    mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
-                }
-            }
-        });
         mapboxMap.setMyLocationEnabled(true);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableLocation();
+                enableLocation(true);
             }
         }
     }
 
-    private void anadirMarcadores() {
-        //TODO
-    }
 }
