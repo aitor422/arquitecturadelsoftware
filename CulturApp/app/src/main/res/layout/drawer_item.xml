@@ -27,7 +27,6 @@
         android:gravity="center_vertical"
         android:textColor="#aaa"
         android:text="Line 1"
-
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/icon"
         android:layout_toEndOf="@+id/icon" />

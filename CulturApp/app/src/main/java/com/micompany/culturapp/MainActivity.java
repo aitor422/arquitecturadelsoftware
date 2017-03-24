@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton floatingActionButton;
     ImageButton burger;
-    ImageView logo;
 
 
     /* Llamado cuando una opcion del menu es seleccionada*/
@@ -151,11 +150,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.navList);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
         mDrawerList.setAdapter(adapter);
-        //Añadir array al menu (abajo)
-        mDrawerList = (ListView) findViewById(R.id.navListFoot);
-        DrawerListAdapter adapterFoot = new DrawerListAdapter(this, mNavItemsFoot);
-        mDrawerList.setAdapter(adapterFoot);
-
         //Añadir accion al seleccionar una opcion del menu
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
                 selectItemFromDrawer(position);
             }
         });
+
+        //Añadir array al menu (abajo)
+        mDrawerList = (ListView) findViewById(R.id.navListFoot);
+        DrawerListAdapter adapterFoot = new DrawerListAdapter(this, mNavItemsFoot);
+        mDrawerList.setAdapter(adapterFoot);
         //Añadir accion al seleccionar una opcion del menu abajo (ajustes)
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -170,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 selectItemFromFooter(position);
             }
         });
+
     }
 
     @Override
