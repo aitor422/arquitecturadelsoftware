@@ -32,10 +32,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-
-        <!-- Texto detalles -->
+        <!-- Texto añadir -->
         <TextView
-            android:id="@+id/tdetalles"
+            android:id="@+id/Anadir2"
             android:gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
@@ -49,54 +48,63 @@
             android:layout_alignParentEnd="true"
             />
 
+
     </RelativeLayout>
 
-    <!-- Campo nombre -->
-    <EditText
-        android:id="@+id/nombre"
+    <!-- layout para el resto -->
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_below="@id/cabeceraajustes"
-        android:hint="Introduzca el nombre"
-        />
+        android:layout_height="fill_parent"
+        android:layout_below="@id/cabeceraanadir2">
 
-    <!-- Campo imagen -->
-    <ImageView
-        android:id="@+id/imagen"
-        android:layout_width="match_parent"
-        android:layout_height="264dp"
-        android:layout_below="@id/nombre"
-        android:adjustViewBounds="true"
-        android:background="#AAA"
-        android:scaleType="fitCenter"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:src="@drawable/defaultfoto"/>
+        <!-- Campo nombre -->
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:hint="Introduzca el nombre"
+            />
 
-    <!-- Campo cambiar imagen -->
-    <Button
-        android:id="@+id/botonimagen"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignBottom="@+id/imagen"
-        android:layout_alignLeft="@+id/imagen"
-        android:layout_alignStart="@+id/imagen"
-        android:text="Cambiar Imagen"
-        android:fontFamily="sans-serif-light"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignRight="@+id/imagen"
-        android:layout_alignEnd="@+id/imagen" />
+        <!-- Campo imagen -->
+        <ImageView
+            android:id="@+id/imagen"
+            android:layout_width="match_parent"
+            android:layout_height="264dp"
+            android:layout_below="@id/nombre"
+            android:adjustViewBounds="true"
+            android:background="#AAA"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:src="@drawable/defaultfoto"/>
 
-    <!-- Boton alante -->
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/forward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/flechaalante"
-        app:backgroundTint="#0EB179"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <!-- Campo cambiar imagen -->
+        <Button
+            android:id="@+id/botonimagen"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/imagen"
+            android:layout_alignLeft="@+id/imagen"
+            android:layout_alignStart="@+id/imagen"
+            android:text="Cambiar Imagen"
+            android:fontFamily="sans-serif-light"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:layout_alignRight="@+id/imagen"
+            android:layout_alignEnd="@+id/imagen" />
+
+        <!-- Boton alante -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/forward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/flechaalante"
+            app:backgroundTint="#0EB179"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

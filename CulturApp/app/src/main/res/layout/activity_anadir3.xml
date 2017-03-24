@@ -50,15 +50,154 @@
 
     </RelativeLayout>
 
-    <!-- Botton okay -->
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/okay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/okay"
-        app:backgroundTint="#0EB179"
-        android:layout_margin="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <!-- layout para el resto -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/cabeceraanadir3">
+
+        <!-- Campo pregunta -->
+        <EditText
+            android:id="@+id/pregunta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:hint="Introduzca la pregunta"
+            android:fontFamily="sans-serif-light"
+            />
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pregunta"
+            android:id="@+id/linearLayout">
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="10dp">
+
+                <RadioButton
+                    android:id="@+id/radioButton0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:visibility="gone"/>
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:visibility="gone"/>
+
+
+            </RadioGroup>
+
+
+            <LinearLayout android:orientation="vertical"
+                android:id="@+id/layoutTexts"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="30dp">
+
+                <EditText
+                    android:id="@+id/editText0"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Introduzca la opcion"
+                    android:fontFamily="sans-serif-light"
+                    />
+
+                <EditText
+                    android:id="@+id/editText1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Introduzca la opcion"
+                    android:fontFamily="sans-serif-light"
+                    />
+
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Introduzca la opcion"
+                    android:fontFamily="sans-serif-light"
+                    android:visibility="gone"/>
+
+                <EditText
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:hint="Introduzca la opcion"
+                    android:fontFamily="sans-serif-light"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout"
+            android:id="@+id/linearLayout2">
+
+            <ImageButton
+                android:id="@+id/mas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:adjustViewBounds="true"
+                android:background="#00ffffff"
+                android:maxHeight="40dp"
+                android:maxWidth="40dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mas" />
+
+            <ImageButton
+                android:id="@+id/menos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:adjustViewBounds="true"
+                android:background="#00ffffff"
+                android:maxHeight="40dp"
+                android:maxWidth="40dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/menos" />
+
+
+        </LinearLayout>
+
+        <!-- Botton okay -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/okay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/okay"
+            app:backgroundTint="#0EB179"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+    </RelativeLayout>
+
 </RelativeLayout>

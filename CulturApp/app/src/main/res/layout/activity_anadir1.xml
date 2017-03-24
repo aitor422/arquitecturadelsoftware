@@ -57,7 +57,7 @@
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/cabeceraajustes"
+        android:layout_below="@id/cabeceraanadir1"
         mapbox:style_url="mapbox://styles/aitor422/ciz8b95hg00762rlr3fyjluc3"
         mapbox:center_latitude="42.8017"
         mapbox:center_longitude="-1.6262"
