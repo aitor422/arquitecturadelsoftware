@@ -15,6 +15,7 @@ public class Anadir3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_anadir3);
 
+        //Añadir accion: Finalizar actividadd al pinchar la flecha
         flecha = (ImageButton) findViewById(R.id.flecha);
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,6 +23,8 @@ public class Anadir3 extends AppCompatActivity {
                 killActivity();
             }
         });
+
+        //Añadir accion: Insertar bd y finalizar al pinchar okay
         okay = (FloatingActionButton) findViewById(R.id.okay);
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +37,7 @@ public class Anadir3 extends AppCompatActivity {
         });
     }
 
+    //funcion finalizar actividad
     private void killActivity() {
         finish();
     }

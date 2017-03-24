@@ -48,22 +48,21 @@ public class MainActivity extends AppCompatActivity {
 
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
-    private LocationServices locationServices;
-    private FloatingActionButton floatingActionButton;
+    private LocationServices locationServices; //gestiona las localizaciones
+
     ArrayList<NavItem> mNavItems = new ArrayList<NavItem>();
     ArrayList<NavItem> mNavItemsFoot = new ArrayList<NavItem>();
     ListView mDrawerList;
     RelativeLayout mDrawerPane;
     private ActionBarDrawerToggle mDrawerToggle;
     DrawerLayout mDrawerLayout;
+
+    private FloatingActionButton floatingActionButton;
     ImageButton burger;
     ImageView logo;
 
 
-    /*
-    * Called when a particular item from the navigation drawer
-    * is selected.
-    * */
+    /* Llamado cuando una opcion del menu es seleccionada*/
     private void selectItemFromDrawer(int position) {
         Intent intent;
         switch (position) {
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /*Llamado cuando la opcion ajustes del menu es seleccionada*/
     private void selectItemFromFooter(int position) {
         Intent intent;
         switch (position) {
@@ -94,13 +94,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
+        mapView = (MapView)findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
 
         locationServices = LocationServices.getLocationServices(MainActivity.this);
 
+        //Asignar accion al abrir la hamburguesa
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         burger = (ImageButton) findViewById(R.id.burgerMenu);
-        logo = (ImageView) findViewById(R.id.logo);
-
         burger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +110,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        mapView = (MapView)findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap map) {
@@ -129,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Asignar accion al seleccionar icono localizacion
         floatingActionButton = (FloatingActionButton) findViewById(R.id.location_toggle_fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,31 +140,30 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Añadir opciones a los arrays de NavItem (para el menu)
         mNavItems.add(new NavItem("Puntuación"/*, "Meetup destination", R.drawable.ic_action_home*/));
         mNavItems.add(new NavItem("Añadir marcador"/*, "Change your preferences", R.drawable.ic_action_settings*/));
         mNavItemsFoot.add(new NavItem("Ajustes"/*, "Get to know about us", R.drawable.ic_action_about*/));
 
-        // DrawerLayout
+        //Añadir array al menu
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-        // Populate the Navigtion Drawer with options
         mDrawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         mDrawerList = (ListView) findViewById(R.id.navList);
         DrawerListAdapter adapter = new DrawerListAdapter(this, mNavItems);
         mDrawerList.setAdapter(adapter);
+        //Añadir array al menu (abajo)
+        mDrawerList = (ListView) findViewById(R.id.navListFoot);
+        DrawerListAdapter adapterFoot = new DrawerListAdapter(this, mNavItemsFoot);
+        mDrawerList.setAdapter(adapterFoot);
 
-        // Drawer Item click listeners
+        //Añadir accion al seleccionar una opcion del menu
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectItemFromDrawer(position);
             }
         });
-
-        mDrawerList = (ListView) findViewById(R.id.navListFoot);
-        DrawerListAdapter adapterFoot = new DrawerListAdapter(this, mNavItemsFoot);
-        mDrawerList.setAdapter(adapterFoot);
-
+        //Añadir accion al seleccionar una opcion del menu abajo (ajustes)
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -190,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mapView.onPause();
+        //Cerrar menu al pausar
         mDrawerLayout.closeDrawer(Gravity.START);
     }
 
@@ -204,6 +204,70 @@ public class MainActivity extends AppCompatActivity {
         super.onLowMemory();
         mapView.onLowMemory();
     }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                enableLocation(true);
+            }
+        }
+    }
+
+
+
+    private void toggleGps(boolean enableGps) {
+        if (enableGps) {
+            // Check if user has granted location permission
+            if (!locationServices.areLocationPermissionsGranted()) {
+                ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
+            }
+            else
+                enableLocation(true);
+        } else {
+            enableLocation(false);
+        }
+    }
+
+    private void enableLocation(boolean enabled) {
+        Location lastLocation;
+        if (enabled) {
+            // If we have the last location of the user, we can move the camera to that position.
+            locationServices.addLocationListener(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    if (location != null) {
+                        // Move the map camera to where the user location is and then remove the
+                        // listener so the camera isn't constantly updating when the user location
+                        // changes. When the user disables and then enables the location again, this
+                        // listener is registered again and will adjust the camera once again.
+                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
+                    }
+                }
+            });
+        }
+        lastLocation =  locationServices.getLastLocation();
+        // Enable or disable the location layer on the map
+        if (lastLocation != null) {
+            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
+            floatingActionButton.setVisibility(View.GONE);
+        }
+        mapboxMap.setMyLocationEnabled(true);
+    }
+
+
+
+
+
+
+/******************** CLASES INTERNAS ************************/
+
+    /* CLASE NavItem
+     *  Opciones del menu
+     */
     class NavItem {
         String mTitle;
         //String mSubtitle;
@@ -216,6 +280,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /* CLASE DrawerListAdapter
+     *  Para añadir lista opciones al menu
+     */
     class DrawerListAdapter extends BaseAdapter {
 
         Context mContext;
@@ -262,57 +329,6 @@ public class MainActivity extends AppCompatActivity {
             //iconView.setImageResource(mNavItems.get(position).mIcon);
 
             return view;
-        }
-    }
-
-    private void toggleGps(boolean enableGps) {
-        if (enableGps) {
-            // Check if user has granted location permission
-            if (!locationServices.areLocationPermissionsGranted()) {
-                ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_LOCATION);
-            }
-            else
-                enableLocation(true);
-        } else {
-            enableLocation(false);
-        }
-    }
-
-    private void enableLocation(boolean enabled) {
-        Location lastLocation;
-        if (enabled) {
-            // If we have the last location of the user, we can move the camera to that position.
-            locationServices.addLocationListener(new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    if (location != null) {
-                        // Move the map camera to where the user location is and then remove the
-                        // listener so the camera isn't constantly updating when the user location
-                        // changes. When the user disables and then enables the location again, this
-                        // listener is registered again and will adjust the camera once again.
-                        mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location), 16));
-                    }
-                }
-            });
-        }
-        lastLocation =  locationServices.getLastLocation();
-        // Enable or disable the location layer on the map
-        if (lastLocation != null) {
-            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
-            floatingActionButton.setVisibility(View.GONE);
-        }
-        mapboxMap.setMyLocationEnabled(true);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSIONS_LOCATION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                enableLocation(true);
-            }
         }
     }
 

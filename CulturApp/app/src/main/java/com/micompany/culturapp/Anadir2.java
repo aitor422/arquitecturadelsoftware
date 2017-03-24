@@ -24,43 +24,47 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Anadir2 extends AppCompatActivity {
+
+    public static Anadir2 anadir2;
+
     private ImageButton flecha;
     private FloatingActionButton alante;
     private Button boton;
     private ImageView imagen;
     private TextView nombre;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private String mCurrentPhotoPath;
     private Bitmap imageBitmap;
 
-
-
-    public static Anadir2 anadir2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        anadir2 = this;
         setContentView(R.layout.activity_anadir2);
+
+        anadir2 = this;
+
+        //Obtener latitud y longitud
         Intent intent = getIntent();
         final String latitud = intent.getStringExtra("LATITUD");
         final String longitud = intent.getStringExtra("LONGITUD");
 
-        nombre = (TextView) findViewById(R.id.nombre);
+        //Añadir accion: Finalizar actividad al ir para atras
         flecha = (ImageButton) findViewById(R.id.flecha);
-        boton = (Button) findViewById(R.id.botonimagen);
-        imagen = (ImageView) findViewById(R.id.imagen);
-
-        alante = (FloatingActionButton) findViewById(R.id.forward);
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 killActivity();
             }
         });
+
+        //Añadir accion: Abrir camera al seleccionar cambiar foto
+        boton = (Button) findViewById(R.id.botonimagen);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
+                    //TODO seleccionar de galeria???????
                     FromCamera();
                 } catch (IOException e) {
                     //
@@ -68,6 +72,10 @@ public class Anadir2 extends AppCompatActivity {
             }
         });
 
+        //Añadir accion: Ir a añadir3 al pulsar continuar
+        nombre = (TextView) findViewById(R.id.nombre);
+        imagen = (ImageView) findViewById(R.id.imagen);
+        alante = (FloatingActionButton) findViewById(R.id.forward);
         alante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,10 +91,12 @@ public class Anadir2 extends AppCompatActivity {
 
     }
 
+    //funcion finalizar actividad
     private void killActivity() {
         finish();
     }
 
+    //Funcion abrir camara
     private void FromCamera() throws IOException {
         File file;
         file = File.createTempFile("temporalfoto", null, this.getCacheDir());

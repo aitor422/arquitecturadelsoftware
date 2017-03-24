@@ -22,21 +22,25 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 
 public class Anadir extends AppCompatActivity {
-    private ImageButton flecha;
-    Marker marker;
-    private FloatingActionButton alante;
-    public static Anadir anadir1;
-    private LocationServices locationServices;
 
+    public static Anadir anadir1;
+
+    Marker marker;
+    private ImageButton flecha;
+    private FloatingActionButton alante;
+
+    private LocationServices locationServices;
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        MapboxAccountManager.start(this, getString(R.string.access_token));
         super.onCreate(savedInstanceState);
-        anadir1 = this;
+        MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_anadir1);
+
+        anadir1 = this;
+
         mapView = (MapView)findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(new OnMapReadyCallback() {
@@ -61,8 +65,9 @@ public class Anadir extends AppCompatActivity {
 
             }
         });
+
+        //Añadir accion: Finalizar actividad al pulsar atras
         flecha = (ImageButton) findViewById(R.id.flecha);
-        alante = (FloatingActionButton) findViewById(R.id.forward);
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,9 +75,12 @@ public class Anadir extends AppCompatActivity {
             }
         });
 
+        //Añadir accion: Ir a Añadir 2 al pulsar siguiente
+        alante = (FloatingActionButton) findViewById(R.id.forward);
         alante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO si no existe ningun marcador con esa ubicacion
                 Intent intent = new Intent(Anadir.this, Anadir2.class);
                 Double l1=marker.getPosition().getLatitude();
                 Double l2=marker.getPosition().getLongitude();
@@ -86,6 +94,7 @@ public class Anadir extends AppCompatActivity {
 
     }
 
+    //Finalizar actitvidad
     private void killActivity() {
         finish();
     }

@@ -5,23 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Anadir2">
+
+    <!-- Cabecera añadir2 -->
     <RelativeLayout
-        android:id="@+id/cabeceraajustes"
+        android:id="@+id/cabeceraanadir2"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#333"
         android:layout_gravity="center">
 
+        <!-- Flecha atras -->
         <ImageButton
+            android:id="@+id/flecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:maxWidth="30dp"
             android:maxHeight="30dp"
-            android:id="@+id/flecha"
             android:src="@drawable/flechaatras"
-
             android:background="#00ffffff"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
@@ -31,8 +33,9 @@
             android:layout_alignParentStart="true" />
 
 
+        <!-- Texto detalles -->
         <TextView
-            android:id="@+id/Anadir"
+            android:id="@+id/tdetalles"
             android:gravity="center_vertical"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
@@ -46,9 +49,9 @@
             android:layout_alignParentEnd="true"
             />
 
-
     </RelativeLayout>
 
+    <!-- Campo nombre -->
     <EditText
         android:id="@+id/nombre"
         android:layout_width="match_parent"
@@ -58,6 +61,7 @@
         android:hint="Introduzca el nombre"
         />
 
+    <!-- Campo imagen -->
     <ImageView
         android:id="@+id/imagen"
         android:layout_width="match_parent"
@@ -65,12 +69,12 @@
         android:layout_below="@id/nombre"
         android:adjustViewBounds="true"
         android:background="#AAA"
-
         android:scaleType="fitCenter"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:src="@drawable/defaultfoto"/>
 
+    <!-- Campo cambiar imagen -->
     <Button
         android:id="@+id/botonimagen"
         android:layout_width="match_parent"
@@ -84,6 +88,7 @@
         android:layout_alignRight="@+id/imagen"
         android:layout_alignEnd="@+id/imagen" />
 
+    <!-- Boton alante -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/forward"
         android:layout_width="wrap_content"

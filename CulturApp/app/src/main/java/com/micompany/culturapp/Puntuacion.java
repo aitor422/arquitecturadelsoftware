@@ -26,9 +26,10 @@ public class Puntuacion extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         byte[] bytes;
         String score;
-        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_puntuacion);
         flecha = (ImageButton) findViewById(R.id.flecha);

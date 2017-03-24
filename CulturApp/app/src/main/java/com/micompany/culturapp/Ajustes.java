@@ -18,7 +18,6 @@ import java.util.List;
 
 public class Ajustes extends AppCompatActivity {
 
-
     ImageButton flecha;
 
     @Override
@@ -26,8 +25,8 @@ public class Ajustes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
 
+        //Añadir accion a la flecha
         flecha = (ImageButton) findViewById(R.id.flecha);
-
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,19 +34,21 @@ public class Ajustes extends AppCompatActivity {
             }
         });
 
-        ListView lv = (ListView) findViewById(R.id.AjustesList);
-
+        //Crear Lista de ajustes
         List<String> lista = new ArrayList<String>();
         lista.add("Reiniciar Puntuación");
         lista.add("Donar");
         lista.add("Acerca de");
 
+        //Añadir lista
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 lista );
+        ListView lv = (ListView) findViewById(R.id.AjustesList);
         lv.setAdapter(arrayAdapter);
 
+        //Añadir acción al seleccionar un elemento de la lista
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -56,11 +57,16 @@ public class Ajustes extends AppCompatActivity {
         });
     }
 
+    //Finaliza la actividad
     private void killActivity() {
         finish();
     }
+
+
+    //Llamado al seleccionar un elemento de la lista
     private void selectItemFromMenu(int position) {
         switch (position) {
+            //Reiniciar puntuación
             case 0:
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage("¿Estás seguro de querer reiniciar la puntuación?");
@@ -95,8 +101,10 @@ public class Ajustes extends AppCompatActivity {
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
                 break;
+            //Donar
             case 1:
                 break;
+            //Acerca de
             default:
                 break;
         }
