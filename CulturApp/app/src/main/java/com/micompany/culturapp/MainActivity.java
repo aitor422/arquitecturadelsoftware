@@ -28,10 +28,12 @@ import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.BaseAdapter;
-
+import android.widget.Toast;
 
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
+import com.mapbox.mapboxsdk.annotations.Marker;
+import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.location.LocationListener;
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     ImageButton burger;
 
+
+    Marker marker;
 
     /* Llamado cuando una opcion del menu es seleccionada*/
     private void selectItemFromDrawer(int position) {
@@ -92,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
+
         setContentView(R.layout.activity_main);
         mapView = (MapView)findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -124,8 +129,30 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 toggleGps(!mapboxMap.isMyLocationEnabled());
+
+
+                /*****************************************************************/
+                //Marcador de prueba para contestar
+                MarkerViewOptions markerViewOptions = new MarkerViewOptions()
+                        .position(new LatLng(42.810108, -1.616677));
+
+                mapboxMap.addMarker(markerViewOptions);
+                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(@NonNull Marker marker) {
+                        //Toast.makeText(MainActivity.this, marker.getTitle(), Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(MainActivity.this, Contestar.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                });
+
             }
         });
+
+
+
+
 
         //Asignar accion al seleccionar icono localizacion
         floatingActionButton = (FloatingActionButton) findViewById(R.id.location_toggle_fab);

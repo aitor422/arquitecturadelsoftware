@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -50,11 +51,16 @@
 
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/cabeceraanadir3">
+
     <!-- layout para el resto -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/cabeceraanadir3">
+        >
 
         <!-- Campo pregunta -->
         <EditText
@@ -184,20 +190,21 @@
 
         </LinearLayout>
 
-        <!-- Botton okay -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/okay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/okay"
-            app:backgroundTint="#0EB179"
-            android:layout_margin="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-
-
     </RelativeLayout>
 
+    </ScrollView>
+
+    <!-- Botton okay -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/okay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/okay"
+        app:backgroundTint="#0EB179"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>
+

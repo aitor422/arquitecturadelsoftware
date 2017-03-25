@@ -1,8 +1,17 @@
 package com.micompany.culturapp;
 
-/**
- * Created by irati on 24/03/17.
- */
+import android.os.Bundle;
 
-public class Contestar {
+import android.support.v7.app.AppCompatActivity;
+;
+
+public class Contestar extends AppCompatActivity {
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_contestar);
+    }
+
 }
