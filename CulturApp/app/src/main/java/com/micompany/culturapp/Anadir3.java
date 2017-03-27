@@ -1,13 +1,12 @@
 package com.micompany.culturapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -36,24 +35,12 @@ public class Anadir3 extends AppCompatActivity {
             }
         });
 
-        //Añadir accion: Insertar bd y finalizar al pinchar okay
-        okay = (FloatingActionButton) findViewById(R.id.okay);
-        okay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO insertar en la base de datos
-                Anadir.anadir1.finish();
-                Anadir2.anadir2.finish();
-                killActivity();
-            }
-        });
-
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         opciones = new ArrayList<EditText>();
-        opciones.add( (EditText) findViewById(R.id.editText0));
-        opciones.add( (EditText) findViewById(R.id.editText1));
-        opciones.add( (EditText) findViewById(R.id.editText2));
-        opciones.add( (EditText) findViewById(R.id.editText3));
+        opciones.add( (EditText) findViewById(R.id.opcion0));
+        opciones.add( (EditText) findViewById(R.id.opcion1));
+        opciones.add( (EditText) findViewById(R.id.opcion2));
+        opciones.add( (EditText) findViewById(R.id.opcion3));
         botones = new ArrayList<RadioButton>();
         botones.add( (RadioButton) findViewById(R.id.radioButton0));
         botones.add( (RadioButton) findViewById(R.id.radioButton1));
@@ -97,6 +84,28 @@ public class Anadir3 extends AppCompatActivity {
                     }
                     numOpciones--;
                 }
+            }
+        });
+
+        //Añadir accion: Insertar bd y finalizar al pinchar okay
+        okay = (FloatingActionButton) findViewById(R.id.okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Obtener datos marcador de la actividad anterior
+                Intent intent = getIntent();
+                final String latitud = intent.getStringExtra("LATITUD");
+                final String longitud = intent.getStringExtra("LONGITUD");
+                final String nombre = intent.getStringExtra("NOMBRE");
+                //final Bitmap bitMap = (Bitmap) intent.getParcelableArrayExtra("IMAGEN")[0];
+                //final int resp_correcta = radioGroup.getCheckedRadioButtonId();''
+
+
+                //TODO insertar en la base de datos
+                Anadir.anadir1.finish();
+                Anadir2.anadir2.finish();
+                killActivity();
             }
         });
     }

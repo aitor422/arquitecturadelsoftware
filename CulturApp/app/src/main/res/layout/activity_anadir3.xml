@@ -122,7 +122,7 @@
                 android:layout_marginRight="30dp">
 
                 <EditText
-                    android:id="@+id/editText0"
+                    android:id="@+id/opcion0"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Introduzca la opcion"
@@ -130,7 +130,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/editText1"
+                    android:id="@+id/opcion1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Introduzca la opcion"
@@ -138,7 +138,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/opcion2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Introduzca la opcion"
@@ -146,7 +146,7 @@
                     android:visibility="gone"/>
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/opcion3"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:hint="Introduzca la opcion"

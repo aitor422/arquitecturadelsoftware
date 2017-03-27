@@ -39,6 +39,7 @@ import com.mapbox.mapboxsdk.location.LocationServices;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.parse.Parse;
 
 import java.util.ArrayList;
 
@@ -94,8 +95,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MapboxAccountManager.start(this, getString(R.string.access_token));
-
         setContentView(R.layout.activity_main);
+
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                .applicationId("culturapp")
+                .clientKey("empty")
+                .server("https://culturapp.herokuapp.com/parse/")
+                .build());
+
         mapView = (MapView)findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
 

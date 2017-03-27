@@ -1,25 +1,29 @@
 package com.micompany.culturapp;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationListener;
 import com.mapbox.mapboxsdk.location.LocationServices;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
 
 public class Anadir extends AppCompatActivity {
 
@@ -32,6 +36,9 @@ public class Anadir extends AppCompatActivity {
     private LocationServices locationServices;
     private MapView mapView = null;
     private MapboxMap mapboxMap = null;
+
+
+    Double longitud, latitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +87,37 @@ public class Anadir extends AppCompatActivity {
         alante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO si no existe ningun marcador con esa ubicacion
-                Intent intent = new Intent(Anadir.this, Anadir2.class);
-                Double l1=marker.getPosition().getLatitude();
-                Double l2=marker.getPosition().getLongitude();
-                String coordl1 = l1.toString();
-                String coordl2 = l2.toString();
-                intent.putExtra("LATITUD", coordl1);
-                intent.putExtra("LONGITUD", coordl2);
-                startActivity(intent);
+
+                latitud=marker.getPosition().getLatitude();
+                longitud=marker.getPosition().getLongitude();
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
+                        .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);
+;
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            if (objects.isEmpty()){
+                                String slatitud = latitud.toString();
+                                String slongitud = longitud.toString();
+                                Intent intent = new Intent(Anadir.this, Anadir2.class);
+                                intent.putExtra("LATITUD", slatitud);
+                                intent.putExtra("LONGITUD", slongitud);
+                                startActivity(intent);
+                            }else {
+                                Toast.makeText(
+                                        getBaseContext(),
+                                        "Ya existe un marcador en esa ubicación" + objects.toString(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Error en la conexion",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 

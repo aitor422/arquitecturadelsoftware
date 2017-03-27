@@ -54,111 +54,124 @@
 
     </RelativeLayout>
 
-    <!-- layout para el resto -->
-    <RelativeLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/cabeceracontestar">
 
-        <!-- Campo imagen -->
-        <ImageView
-            android:id="@+id/imagen"
+        <!-- layout para el resto -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#AAA"
-            android:scaleType="fitCenter"
-            android:layout_margin="30dp"
-            android:src="@drawable/defaultfoto"/>
+            android:layout_height="fill_parent"
+            android:layout_below="@id/cabeceracontestar">
 
-        <!-- Campo cambiar imagen -->
-        <TextView
-            android:id="@+id/botonimagen"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_alignBottom="@+id/imagen"
-            android:layout_alignEnd="@+id/imagen"
-            android:layout_alignLeft="@+id/imagen"
-            android:layout_alignRight="@+id/imagen"
-            android:layout_alignStart="@+id/imagen"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_vertical"
-            android:text="Nombre marcador"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
+            <!-- Campo imagen -->
+            <ImageView
+                android:id="@+id/imagen"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#AAA"
+                android:scaleType="fitCenter"
+                android:layout_margin="30dp"
+                android:src="@drawable/defaultfoto"/>
+
+            <!-- Campo cambiar imagen -->
+            <TextView
+                android:id="@+id/botonimagen"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_alignBottom="@+id/imagen"
+                android:layout_alignEnd="@+id/imagen"
+                android:layout_alignLeft="@+id/imagen"
+                android:layout_alignRight="@+id/imagen"
+                android:layout_alignStart="@+id/imagen"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:text="Nombre marcador"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
 
 
-        <TextView
-            android:id="@+id/pregunta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imagen"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-light"
-            android:text="Pregunta????"
-            android:textSize="18sp" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_below="@id/pregunta"
-            >
-
-            <RadioButton
-                android:id="@+id/radioButton0"
+            <TextView
+                android:id="@+id/pregunta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:layout_below="@+id/imagen"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Prueba"
+                android:text="Pregunta????"
                 android:textSize="18sp" />
 
-            <RadioButton
-                android:id="@+id/radioButton1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="18sp" />
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/pregunta"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
 
-            <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                <RadioButton
+                    android:id="@+id/radioButton0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:checked="true"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Prueba"
+                    android:textSize="18sp" />
 
-            <RadioButton
-                android:id="@+id/radioButton3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/radioButton3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
 
 
-        </RadioGroup>
+            </RadioGroup>
 
-        <!-- Botton okay -->
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/okay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/okay"
-            app:backgroundTint="#0EB179"
-            android:layout_margin="16dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+        </RelativeLayout>
 
-    </RelativeLayout>
+    </ScrollView>
+
+    <!-- Botton okay -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/okay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/okay"
+        app:backgroundTint="#0EB179"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 
 </RelativeLayout>
