@@ -87,7 +87,13 @@ public class Anadir extends AppCompatActivity {
         alante.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Se quita el onClickListener para que el usuario no pueda sobrecargar las peticiones a avanzar.
+                alante.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
+                    }
+                });
                 latitud=marker.getPosition().getLatitude();
                 longitud=marker.getPosition().getLongitude();
 
@@ -131,6 +137,48 @@ public class Anadir extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        // Si el usuario vuelve de una vista posterior se vuelve a hablitar el ClickListener de flecha.
+        alante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alante.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                latitud=marker.getPosition().getLatitude();
+                longitud=marker.getPosition().getLongitude();
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
+                        .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);
+                ;
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            if (objects.isEmpty()){
+                                String slatitud = latitud.toString();
+                                String slongitud = longitud.toString();
+                                Intent intent = new Intent(Anadir.this, Anadir2.class);
+                                intent.putExtra("LATITUD", slatitud);
+                                intent.putExtra("LONGITUD", slongitud);
+                                startActivity(intent);
+                            }else {
+                                Toast.makeText(
+                                        getBaseContext(),
+                                        "Ya existe un marcador en esa ubicación" + objects.toString(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Error en la conexion",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
         mapView.onResume();
     }
 
