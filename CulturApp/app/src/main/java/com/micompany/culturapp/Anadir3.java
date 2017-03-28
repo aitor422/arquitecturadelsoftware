@@ -1,6 +1,7 @@
 package com.micompany.culturapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +10,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Anadir3 extends AppCompatActivity {
@@ -20,7 +28,10 @@ public class Anadir3 extends AppCompatActivity {
     List<EditText> opciones;
     List<RadioButton> botones;
     private RadioGroup radioGroup;
-    private int numOpciones;
+    int numOpciones;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,16 +104,69 @@ public class Anadir3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(
+                        getBaseContext(),
+                        "Añadiendo marcador...",
+                        Toast.LENGTH_SHORT).show();
+
                 //Obtener datos marcador de la actividad anterior
                 Intent intent = getIntent();
-                final String latitud = intent.getStringExtra("LATITUD");
-                final String longitud = intent.getStringExtra("LONGITUD");
+                final double latitud = Double.parseDouble(intent.getStringExtra("LATITUD"));
+                final double longitud = Double.parseDouble(intent.getStringExtra("LONGITUD"));
                 final String nombre = intent.getStringExtra("NOMBRE");
-                //final Bitmap bitMap = (Bitmap) intent.getParcelableArrayExtra("IMAGEN")[0];
-                //final int resp_correcta = radioGroup.getCheckedRadioButtonId();''
+                final Bitmap bitmap = (Bitmap) intent.getParcelableExtra("IMAGEN");
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                String imagen = Arrays.toString(bos.toByteArray());
 
+                //Obtener datos de la actividad actual
+                EditText epregunta = (EditText) findViewById(R.id.pregunta);
+                final String pregunta = epregunta.getText().toString();
+                String[] textos = new String[numOpciones];
+                for (int i=0; i<numOpciones; i++){
+                    textos[i]=opciones.get(i).getText().toString();
+                }
 
-                //TODO insertar en la base de datos
+                int opccorrecta  = radioGroup.getCheckedRadioButtonId();
+                /*if (id_checked == opciones.get(0).getId()) {
+                    opccorrecta = 0;
+                } else if (id_checked == opciones.get(1).getId()) {
+                    opccorrecta = 1;
+                } else if (id_checked == opciones.get(2).getId()) {
+                    opccorrecta = 2;
+                } else {
+                    opccorrecta = 3;
+                }*/
+
+                //insertar en la base de datos
+                ParseObject marcador = new ParseObject("Marcador");
+                marcador.put("latitud", latitud);
+                marcador.put("longitud", longitud);
+                marcador.put("nombre", nombre);
+                //marcador.add("imagen", imagen);
+                marcador.put("pregunta", pregunta);
+                marcador.put("opc_correcta", opccorrecta);
+                marcador.put("num_opciones", numOpciones);
+
+                marcador.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Marcador añadido",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Error al añadir marcador: "+ e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                });
+
+                //Finalizar añadir marcador
                 Anadir.anadir1.finish();
                 Anadir2.anadir2.finish();
                 killActivity();

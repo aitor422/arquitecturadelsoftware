@@ -88,12 +88,13 @@ public class Anadir extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Se quita el onClickListener para que el usuario no pueda sobrecargar las peticiones a avanzar.
-                alante.setOnClickListener(new View.OnClickListener() {
+                //Lo quito porque sino cuando ya existe una ubicacion n te deha volver  apribar
+                /*alante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                     }
-                });
+                })*/;
                 latitud=marker.getPosition().getLatitude();
                 longitud=marker.getPosition().getLongitude();
 
@@ -147,6 +148,12 @@ public class Anadir extends AppCompatActivity {
 
                     }
                 });
+
+                Toast.makeText(
+                        getBaseContext(),
+                        "Comprobando que no existe un marcador en esa ubicación...",
+                        Toast.LENGTH_SHORT).show();
+
                 latitud=marker.getPosition().getLatitude();
                 longitud=marker.getPosition().getLongitude();
 

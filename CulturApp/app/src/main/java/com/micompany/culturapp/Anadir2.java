@@ -1,12 +1,8 @@
 package com.micompany.culturapp;
 
 import android.content.Intent;
-
 import android.graphics.Bitmap;
-
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,13 +11,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Anadir2 extends AppCompatActivity {
 
@@ -81,7 +74,7 @@ public class Anadir2 extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Anadir2.this, Anadir3.class);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                intent.putExtra("NOMBRE", nombre.getText());
+                intent.putExtra("NOMBRE", nombre.getText().toString());
                 intent.putExtra("LATITUD", latitud);
                 intent.putExtra("LONGITUD", longitud);
                 intent.putExtra("IMAGEN", imageBitmap);
