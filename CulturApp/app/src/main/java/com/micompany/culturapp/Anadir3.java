@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,7 +20,6 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Anadir3 extends AppCompatActivity {
@@ -116,10 +116,9 @@ public class Anadir3 extends AppCompatActivity {
                 final double longitud = Anadir.anadir1.longitud;
                 final String nombre = Anadir2.anadir2.nombre.getText().toString();
                 final Bitmap bitmap = ((BitmapDrawable) Anadir2.anadir2.imagen.getDrawable()).getBitmap();
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                String imagen = new String(bos.toByteArray());
-
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                String imagen = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
                 //Obtener datos de la actividad actual
                 EditText epregunta = (EditText) findViewById(R.id.pregunta);
                 final String pregunta = epregunta.getText().toString();
@@ -128,17 +127,7 @@ public class Anadir3 extends AppCompatActivity {
                     textos[i]=opciones.get(i).getText().toString();
                 }
 
-                int opccorrecta  = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
-
-                /*if (id_checked == opciones.get(0).getId()) {
-                    opccorrecta = 0;
-                } else if (id_checked == opciones.get(1).getId()) {
-                    opccorrecta = 1;
-                } else if (id_checked == opciones.get(2).getId()) {
-                    opccorrecta = 2;
-                } else {
-                    opccorrecta = 3;
-                }*/
+                int opccorrecta  = radioGroup.getCheckedRadioButtonId();
 
                 //insertar en la base de datos
                 ParseObject marcador = new ParseObject("Marcador");
@@ -167,6 +156,35 @@ public class Anadir3 extends AppCompatActivity {
                     }
 
                 });
+
+
+                //Añadir opciones
+                for (int i=0; i<numOpciones; i++) {
+                    //insertar en la base de datos
+                    ParseObject opcion = new ParseObject("Opcion");
+                    opcion.put("latitud", latitud);
+                    opcion.put("longitud", longitud);
+                    opcion.put("num", i);
+                    opcion.put("texto", opciones.get(i).getText().toString());
+
+                    opcion.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                            } else {
+                                Toast.makeText(
+                                        getBaseContext(),
+                                        "Error al añadir Opción: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    });
+                }
+
+
+
+
 
                 //Finalizar añadir marcador
                 Anadir.anadir1.finish();
