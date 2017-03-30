@@ -18,8 +18,15 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Math.round;
 
 public class Contestar extends AppCompatActivity {
 
@@ -49,18 +56,44 @@ public class Contestar extends AppCompatActivity {
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int opc_elegida = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
-                if (opc_correcta==opc_elegida){
+
+                String FILENAME = "puntuacion";
+                File fichero = getFileStreamPath(FILENAME);
+
+                try {
+                    BufferedReader in = new BufferedReader(new FileReader(fichero));
+                    String score = in.readLine();
+                    String[] tok = score.split("-");
+                    in.close();
+                    double aciertosd = Double.parseDouble(tok[0]);
+                    double intentosd = Double.parseDouble(tok[1]);
+                    intentosd++;
+                    int opc_elegida = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
+                    if (opc_correcta==opc_elegida){
+                        aciertosd++;
+                        Toast.makeText(
+                                getBaseContext(),
+                                "Opción correcta!",
+                                Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(
+                                getBaseContext(),
+                                "Opción incorrecta!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    FileOutputStream fos = new FileOutputStream(fichero);
+                    fos.write(((int)aciertosd + "-" + (int)intentosd).getBytes());
+                    fos.close();
+                }
+
+                catch (IOException e) {
                     Toast.makeText(
                             getBaseContext(),
-                            "Opción correcta!",
-                            Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(
-                            getBaseContext(),
-                            "Opción incorrecta!",
+                            "IOException" + e.getLocalizedMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
+
                 killActivity();
             }
         });

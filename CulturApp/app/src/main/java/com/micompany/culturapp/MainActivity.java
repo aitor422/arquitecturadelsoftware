@@ -126,78 +126,8 @@ public class MainActivity extends AppCompatActivity {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap map) {
-
                 mapboxMap = map;
-                mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
-                mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
-                mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
-                mapboxMap.setOnScrollListener(new MapboxMap.OnScrollListener() {
-                    @Override
-                    public void onScroll() {
-                        floatingActionButton.setVisibility(View.VISIBLE);
-                    }
-                });
-                toggleGps(!mapboxMap.isMyLocationEnabled());
-
-                //Obtener marcadores
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador");
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (e == null) {
-                            for (ParseObject marcador : objects){
-                                double longitud = (double) marcador.get("longitud");
-                                double latitud = (double) marcador.get("latitud");
-                                MarkerViewOptions markerViewOptions = new MarkerViewOptions()
-                                        .position(new LatLng( latitud, longitud ) );
-                                mapboxMap.addMarker(markerViewOptions);
-                            }
-                        } else {
-                            Toast.makeText(
-                                    getBaseContext(),
-                                    "Error al obtener marcadores",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-
-                mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(@NonNull Marker marker) {
-                        double latitud=marker.getPosition().getLatitude();
-                        double longitud=marker.getPosition().getLongitude();
-                        //Obtener marcadores
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
-                                .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);;
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                if (e == null) {
-                                    ParseObject marcador = objects.get(0);
-                                    Intent intent = new Intent(MainActivity.this, Contestar.class);
-                                    intent.putExtra("PREGUNTA",(String) marcador.get("pregunta"));
-                                    intent.putExtra("NOMBRE",(String) marcador.get("nombre"));
-                                    intent.putExtra("OPC_CORRECTA",(int) marcador.get("opc_correcta"));
-                                    intent.putExtra("NUM_OPCIONES",(int) marcador.get("num_opciones"));
-                                    intent.putExtra("LATITUD",(double) marcador.get("latitud"));
-                                    intent.putExtra("LONGITUD",(double) marcador.get("longitud"));
-                                    String encoded = (String) marcador.get("imagen");
-                                    byte [] encodeByte = Base64.decode(encoded,Base64.DEFAULT);
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                                    intent.putExtra("IMAGEN",bitmap);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(
-                                            getBaseContext(),
-                                            "Error al obtener marcadores",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-                        return true;
-                    }
-                });
-
+                configureMap();
             }
         });
 
@@ -334,6 +264,80 @@ public class MainActivity extends AppCompatActivity {
             floatingActionButton.setVisibility(View.GONE);
         }
         mapboxMap.setMyLocationEnabled(true);
+    }
+
+    // He movido aquí todas las configuraciones sobre el mapa por claridad.
+    private void configureMap() {
+        mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
+        mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
+        mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
+        mapboxMap.setOnScrollListener(new MapboxMap.OnScrollListener() {
+            @Override
+            public void onScroll() {
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        });
+        toggleGps(!mapboxMap.isMyLocationEnabled());
+
+        //Obtener marcadores
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject marcador : objects){
+                        double longitud = (double) marcador.get("longitud");
+                        double latitud = (double) marcador.get("latitud");
+                        MarkerViewOptions markerViewOptions = new MarkerViewOptions()
+                                .position(new LatLng( latitud, longitud ) );
+                        mapboxMap.addMarker(markerViewOptions);
+                    }
+                } else {
+                    Toast.makeText(
+                            getBaseContext(),
+                            "Error al obtener marcadores",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                double latitud=marker.getPosition().getLatitude();
+                double longitud=marker.getPosition().getLongitude();
+                //Obtener marcadores
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
+                        .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);;
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            ParseObject marcador = objects.get(0);
+                            Intent intent = new Intent(MainActivity.this, Contestar.class);
+                            intent.putExtra("PREGUNTA",(String) marcador.get("pregunta"));
+                            intent.putExtra("NOMBRE",(String) marcador.get("nombre"));
+                            intent.putExtra("OPC_CORRECTA",(int) marcador.get("opc_correcta"));
+                            intent.putExtra("NUM_OPCIONES",(int) marcador.get("num_opciones"));
+                            intent.putExtra("LATITUD",(double) marcador.get("latitud"));
+                            intent.putExtra("LONGITUD",(double) marcador.get("longitud"));
+                            String encoded = (String) marcador.get("imagen");
+                            byte [] encodeByte = Base64.decode(encoded,Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                            intent.putExtra("IMAGEN",bitmap);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Error al obtener marcadores",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                return true;
+            }
+        });
+
     }
 
 
