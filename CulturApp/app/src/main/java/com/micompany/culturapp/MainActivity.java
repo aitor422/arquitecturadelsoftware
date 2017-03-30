@@ -8,26 +8,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
-
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.view.View;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.BaseAdapter;
-
+import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
 import com.mapbox.mapboxsdk.annotations.Marker;
@@ -39,9 +38,14 @@ import com.mapbox.mapboxsdk.location.LocationServices;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButton;
     ImageButton burger;
 
-
+    Intent intent;
     Marker marker;
 
     /* Llamado cuando una opcion del menu es seleccionada*/
@@ -135,18 +139,51 @@ public class MainActivity extends AppCompatActivity {
                 });
                 toggleGps(!mapboxMap.isMyLocationEnabled());
 
+                //Obtener marcadores
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e == null) {
+                            for (ParseObject marcador : objects){
+                                double longitud = (double) marcador.get("longitud");
+                                double latitud = (double) marcador.get("latitud");
+                                MarkerViewOptions markerViewOptions = new MarkerViewOptions()
+                                        .position(new LatLng( latitud, longitud ) );
+                                mapboxMap.addMarker(markerViewOptions);
+                            }
+                        } else {
+                            Toast.makeText(
+                                    getBaseContext(),
+                                    "Error al obtener marcadores",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
-                /*****************************************************************/
-                //Marcador de prueba para contestar
-                MarkerViewOptions markerViewOptions = new MarkerViewOptions()
-                        .position(new LatLng(42.810108, -1.616677));
 
-                mapboxMap.addMarker(markerViewOptions);
                 mapboxMap.setOnMarkerClickListener(new MapboxMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
-                        //Toast.makeText(MainActivity.this, marker.getTitle(), Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(MainActivity.this, Contestar.class);
+                        intent = new Intent(MainActivity.this, Contestar.class);
+                        double latitud=marker.getPosition().getLatitude();
+                        double longitud=marker.getPosition().getLongitude();
+                        //Obtener marcadores
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador");
+                        query.findInBackground(new FindCallback<ParseObject>() {
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                if (e == null) {
+                                    ParseObject marcador = objects.get(0);
+                                    intent.putExtra("PREGUNTA",(String) marcador.get("pregunta"));
+                                } else {
+                                    Toast.makeText(
+                                            getBaseContext(),
+                                            "Error al obtener marcadores",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
+
                         startActivity(intent);
                         return true;
                     }
