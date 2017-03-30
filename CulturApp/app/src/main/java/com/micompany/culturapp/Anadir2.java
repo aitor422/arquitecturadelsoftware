@@ -23,8 +23,8 @@ public class Anadir2 extends AppCompatActivity {
     private ImageButton flecha;
     private FloatingActionButton alante;
     private Button boton;
-    private ImageView imagen;
-    private TextView nombre;
+    ImageView imagen;
+    TextView nombre;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private String mCurrentPhotoPath;
@@ -39,8 +39,6 @@ public class Anadir2 extends AppCompatActivity {
 
         //Obtener latitud y longitud
         Intent intent = getIntent();
-        final String latitud = intent.getStringExtra("LATITUD");
-        final String longitud = intent.getStringExtra("LONGITUD");
 
         //Añadir accion: Finalizar actividad al ir para atras
         flecha = (ImageButton) findViewById(R.id.flecha);
@@ -74,10 +72,6 @@ public class Anadir2 extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Anadir2.this, Anadir3.class);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                intent.putExtra("NOMBRE", nombre.getText().toString());
-                intent.putExtra("LATITUD", latitud);
-                intent.putExtra("LONGITUD", longitud);
-                intent.putExtra("IMAGEN", imageBitmap);
                 startActivity(intent);
             }
         });
@@ -92,7 +86,7 @@ public class Anadir2 extends AppCompatActivity {
     //Funcion abrir camara
     private void FromCamera() throws IOException {
         File file;
-        file = File.createTempFile("temporalfoto", null, this.getCacheDir());
+        //file = File.createTempFile("temporalfoto", null, this.getCacheDir());
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(file.getPath()));
 
@@ -109,4 +103,5 @@ public class Anadir2 extends AppCompatActivity {
             imagen.setImageBitmap(imageBitmap);
         }
     }
+
 }

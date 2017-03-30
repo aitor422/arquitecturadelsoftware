@@ -30,7 +30,8 @@
         <activity android:name=".Ajustes" />
         <activity android:name=".Anadir" />
         <activity android:name=".Puntuacion" />
-        <activity android:name=".Anadir2" />
+        <activity android:name=".Anadir2"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".Anadir3" />
         <activity android:name=".Contestar"></activity>
     </application>

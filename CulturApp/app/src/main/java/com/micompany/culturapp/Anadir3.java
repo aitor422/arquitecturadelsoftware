@@ -2,6 +2,7 @@ package com.micompany.culturapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -111,13 +112,13 @@ public class Anadir3 extends AppCompatActivity {
 
                 //Obtener datos marcador de la actividad anterior
                 Intent intent = getIntent();
-                final double latitud = Double.parseDouble(intent.getStringExtra("LATITUD"));
-                final double longitud = Double.parseDouble(intent.getStringExtra("LONGITUD"));
-                final String nombre = intent.getStringExtra("NOMBRE");
-                final Bitmap bitmap = (Bitmap) intent.getParcelableExtra("IMAGEN");
+                final double latitud = Anadir.anadir1.latitud;
+                final double longitud = Anadir.anadir1.longitud;
+                final String nombre = Anadir2.anadir2.nombre.getText().toString();
+                final Bitmap bitmap = ((BitmapDrawable) Anadir2.anadir2.imagen.getDrawable()).getBitmap();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                String imagen = Arrays.toString(bos.toByteArray());
+                String imagen = new String(bos.toByteArray());
 
                 //Obtener datos de la actividad actual
                 EditText epregunta = (EditText) findViewById(R.id.pregunta);
@@ -143,7 +144,7 @@ public class Anadir3 extends AppCompatActivity {
                 marcador.put("latitud", latitud);
                 marcador.put("longitud", longitud);
                 marcador.put("nombre", nombre);
-                //marcador.add("imagen", imagen);
+                marcador.put("imagen", imagen);
                 marcador.put("pregunta", pregunta);
                 marcador.put("opc_correcta", opccorrecta);
                 marcador.put("num_opciones", numOpciones);
