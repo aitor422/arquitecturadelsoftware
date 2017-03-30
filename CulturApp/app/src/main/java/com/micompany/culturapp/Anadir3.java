@@ -128,7 +128,8 @@ public class Anadir3 extends AppCompatActivity {
                     textos[i]=opciones.get(i).getText().toString();
                 }
 
-                int opccorrecta  = radioGroup.getCheckedRadioButtonId();
+                int opccorrecta  = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
+
                 /*if (id_checked == opciones.get(0).getId()) {
                     opccorrecta = 0;
                 } else if (id_checked == opciones.get(1).getId()) {
