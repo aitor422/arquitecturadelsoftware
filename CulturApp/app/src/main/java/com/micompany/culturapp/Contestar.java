@@ -1,22 +1,43 @@
 package com.micompany.culturapp;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Contestar extends AppCompatActivity {
+
     private ImageButton flecha;
     List<RadioButton> botones;
+    int opc_correcta;
+    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contestar);
+
+        Intent intent = getIntent();
+
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        opc_correcta = intent.getIntExtra("OPC_CORRECTA", -1);
+
         flecha = (ImageButton) findViewById(R.id.flecha);
         flecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,6 +45,27 @@ public class Contestar extends AppCompatActivity {
                 killActivity();
             }
         });
+        FloatingActionButton okay = (FloatingActionButton) findViewById(R.id.okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int opc_elegida = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
+                if (opc_correcta==opc_elegida){
+                    Toast.makeText(
+                            getBaseContext(),
+                            "Opción correcta!",
+                            Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(
+                            getBaseContext(),
+                            "Opción incorrecta!",
+                            Toast.LENGTH_SHORT).show();
+                }
+                killActivity();
+            }
+        });
+
+
 
         botones = new ArrayList<RadioButton>();
         botones.add( (RadioButton) findViewById(R.id.radioButton0));
@@ -31,8 +73,6 @@ public class Contestar extends AppCompatActivity {
         botones.add( (RadioButton) findViewById(R.id.radioButton2));
         botones.add( (RadioButton) findViewById(R.id.radioButton3));
 
-/*
-        Intent intent = getIntent();
         TextView pregunta = (TextView) findViewById(R.id.pregunta);
         pregunta.setText(intent.getStringExtra("PREGUNTA"));
         TextView nombre = (TextView) findViewById(R.id.nombre);
@@ -42,7 +82,7 @@ public class Contestar extends AppCompatActivity {
 
         double latitud = intent.getDoubleExtra("LATITUD", -1);
         double longitud = intent.getDoubleExtra("LONGITUD", -1);
-/*
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Opcion")
                 .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -54,11 +94,16 @@ public class Contestar extends AppCompatActivity {
                             botones.get(i).setText((String)objects.get(i).get("texto"));
                         }
                     }else{
-
-
+                        Toast.makeText(
+                                getBaseContext(),
+                                "Error en la conexión",
+                                Toast.LENGTH_SHORT).show();
+                        killActivity();
                     }
             }
-        });*/
+        });
+
+
     }
     //funcion finalizar actividad
     private void killActivity() {

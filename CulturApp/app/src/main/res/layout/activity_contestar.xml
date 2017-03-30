@@ -66,6 +66,20 @@
             android:layout_height="fill_parent"
             android:layout_below="@id/cabeceracontestar">
 
+            <TextView
+                android:id="@+id/nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:text="Nombre marcador"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat" />
+
             <!-- Campo imagen -->
             <ImageView
                 android:id="@+id/imagen"
@@ -74,23 +88,9 @@
                 android:background="#AAA"
                 android:scaleType="fitCenter"
                 android:layout_margin="30dp"
-                android:src="@drawable/defaultfoto"/>
+                android:src="@drawable/defaultfoto"
+                android:layout_below="@+id/nombre"/>
 
-            <!-- Campo cambiar imagen -->
-            <TextView
-                android:id="@+id/botonimagen"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_alignBottom="@+id/imagen"
-                android:layout_alignEnd="@+id/imagen"
-                android:layout_alignLeft="@+id/imagen"
-                android:layout_alignRight="@+id/imagen"
-                android:layout_alignStart="@+id/imagen"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center_vertical"
-                android:text="Nombre marcador"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.AppCompat" />
 
 
             <TextView

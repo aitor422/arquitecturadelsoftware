@@ -127,7 +127,7 @@ public class Anadir3 extends AppCompatActivity {
                     textos[i]=opciones.get(i).getText().toString();
                 }
 
-                int opccorrecta  = radioGroup.getCheckedRadioButtonId();
+                int opccorrecta  = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
 
                 //insertar en la base de datos
                 ParseObject marcador = new ParseObject("Marcador");
