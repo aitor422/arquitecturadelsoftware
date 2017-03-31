@@ -182,10 +182,6 @@ public class Anadir3 extends AppCompatActivity {
                     });
                 }
 
-
-
-
-
                 //Finalizar añadir marcador
                 Anadir.anadir1.finish();
                 Anadir2.anadir2.finish();
