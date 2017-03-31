@@ -84,7 +84,7 @@ public class Contestar extends AppCompatActivity {
         double longitud = intent.getDoubleExtra("LONGITUD", -1);
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Opcion")
-                .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);
+                .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud).orderByAscending("num");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null){
