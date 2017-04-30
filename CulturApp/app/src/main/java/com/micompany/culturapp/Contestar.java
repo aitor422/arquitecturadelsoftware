@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.io.BufferedReader;
@@ -25,8 +24,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.round;
 
 public class Contestar extends AppCompatActivity {
 
@@ -116,15 +113,15 @@ public class Contestar extends AppCompatActivity {
         double latitud = intent.getDoubleExtra("LATITUD", -1);
         double longitud = intent.getDoubleExtra("LONGITUD", -1);
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Opcion")
+        ParseQuery<Opcion> query = ParseQuery.getQuery(Opcion.class)
                 .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud).orderByAscending("num");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
+        query.findInBackground(new FindCallback<Opcion>() {
+            public void done(List<Opcion> objects, ParseException e) {
                     if (e == null){
                         if (objects.size()>2) botones.get(2).setVisibility(View.VISIBLE);
                         if (objects.size()>3) botones.get(3).setVisibility(View.VISIBLE);
                         for (int i=0; i<objects.size(); i++){
-                            botones.get(i).setText((String)objects.get(i).get("texto"));
+                            botones.get(i).setText(objects.get(i).getTexto());
                         }
                     }else{
                         Toast.makeText(

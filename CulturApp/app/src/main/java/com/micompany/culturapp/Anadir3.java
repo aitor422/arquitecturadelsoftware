@@ -15,7 +15,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -129,15 +128,10 @@ public class Anadir3 extends AppCompatActivity {
 
                 int opccorrecta  = radioGroup.indexOfChild(findViewById(radioGroup.getCheckedRadioButtonId()));
 
-                //insertar en la base de datos
-                ParseObject marcador = new ParseObject("Marcador");
-                marcador.put("latitud", latitud);
-                marcador.put("longitud", longitud);
-                marcador.put("nombre", nombre);
-                marcador.put("imagen", imagen);
-                marcador.put("pregunta", pregunta);
-                marcador.put("opc_correcta", opccorrecta);
-                marcador.put("num_opciones", numOpciones);
+
+                //insertar en la base de dar
+                Marcador marcador = new Marcador();
+                marcador.setup(latitud, longitud, nombre, imagen, pregunta, opccorrecta, numOpciones);
 
                 marcador.saveInBackground(new SaveCallback() {
                     @Override
@@ -161,11 +155,8 @@ public class Anadir3 extends AppCompatActivity {
                 //Añadir opciones
                 for (int i=0; i<numOpciones; i++) {
                     //insertar en la base de datos
-                    ParseObject opcion = new ParseObject("Opcion");
-                    opcion.put("latitud", latitud);
-                    opcion.put("longitud", longitud);
-                    opcion.put("num", i);
-                    opcion.put("texto", opciones.get(i).getText().toString());
+                    Opcion opcion = new Opcion();
+                    opcion.setup(latitud, longitud, i, opciones.get(i).getText().toString());
 
                     opcion.saveInBackground(new SaveCallback() {
                         @Override

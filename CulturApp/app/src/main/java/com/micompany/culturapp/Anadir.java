@@ -20,7 +20,6 @@ import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.List;
@@ -145,11 +144,11 @@ public class Anadir extends AppCompatActivity {
                         "Comprobando si existen marcadores en esta ubicación",
                         Toast.LENGTH_SHORT).show();
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
+                ParseQuery<Marcador> query = ParseQuery.getQuery(Marcador.class)
                         .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);
                 ;
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException e) {
+                query.findInBackground(new FindCallback<Marcador>() {
+                    public void done(List<Marcador> objects, ParseException e) {
                         if (e == null) {
                             if (objects.isEmpty()){
                                 Intent intent = new Intent(Anadir.this, Anadir2.class);

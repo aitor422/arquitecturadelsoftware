@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         MapboxAccountManager.start(this, getString(R.string.access_token));
         setContentView(R.layout.activity_main);
 
+        ParseObject.registerSubclass(Marcador.class);
+        ParseObject.registerSubclass(Opcion.class);
+        ParseObject.registerSubclass(Opcion.class);
         Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
                 .applicationId("culturapp")
                 .clientKey("empty")
@@ -280,13 +283,13 @@ public class MainActivity extends AppCompatActivity {
         toggleGps(!mapboxMap.isMyLocationEnabled());
 
         //Obtener marcadores
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> objects, ParseException e) {
+        ParseQuery<Marcador> query = ParseQuery.getQuery(Marcador.class);
+        query.findInBackground(new FindCallback<Marcador>() {
+            public void done(List<Marcador> objects, ParseException e) {
                 if (e == null) {
-                    for (ParseObject marcador : objects){
-                        double longitud = (double) marcador.get("longitud");
-                        double latitud = (double) marcador.get("latitud");
+                    for (Marcador marcador : objects){
+                        double longitud = marcador.getLongitud();
+                        double latitud = marcador.getLatitud();
                         MarkerViewOptions markerViewOptions = new MarkerViewOptions()
                                 .position(new LatLng( latitud, longitud ) );
                         mapboxMap.addMarker(markerViewOptions);
@@ -307,24 +310,25 @@ public class MainActivity extends AppCompatActivity {
                 double latitud=marker.getPosition().getLatitude();
                 double longitud=marker.getPosition().getLongitude();
                 //Obtener marcadores
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Marcador")
+                ParseQuery<Marcador> query = ParseQuery.getQuery(Marcador.class)
                         .whereEqualTo("longitud", longitud).whereEqualTo("latitud", latitud);;
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException e) {
+                query.findInBackground(new FindCallback<Marcador>() {
+                    public void done(List<Marcador> objects, ParseException e) {
                         if (e == null) {
-                            ParseObject marcador = objects.get(0);
+                            Marcador marcador = objects.get(0);
                             Intent intent = new Intent(MainActivity.this, Contestar.class);
-                            intent.putExtra("PREGUNTA",(String) marcador.get("pregunta"));
-                            intent.putExtra("NOMBRE",(String) marcador.get("nombre"));
-                            intent.putExtra("OPC_CORRECTA",(int) marcador.get("opc_correcta"));
-                            intent.putExtra("NUM_OPCIONES",(int) marcador.get("num_opciones"));
-                            intent.putExtra("LATITUD",(double) marcador.get("latitud"));
-                            intent.putExtra("LONGITUD",(double) marcador.get("longitud"));
-                            String encoded = (String) marcador.get("imagen");
-                            byte [] encodeByte = Base64.decode(encoded,Base64.DEFAULT);
+                            intent.putExtra("PREGUNTA", marcador.getPregunta());
+                            intent.putExtra("NOMBRE",marcador.getNombre());
+                            intent.putExtra("OPC_CORRECTA",marcador.getOpccorrecta());
+                            intent.putExtra("NUM_OPCIONES",marcador.getNumopciones());
+                            intent.putExtra("LATITUD", marcador.getLatitud());
+                            intent.putExtra("LONGITUD",marcador.getLongitud());
+                            String encoded = marcador.getImagen();
+                            byte [] encodeByte = Base64.decode(encoded, Base64.DEFAULT);
                             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
                             intent.putExtra("IMAGEN",bitmap);
                             startActivity(intent);
+
                         } else {
                             Toast.makeText(
                                     getBaseContext(),
