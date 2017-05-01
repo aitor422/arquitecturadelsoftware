@@ -6,8 +6,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -193,6 +192,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mapView.onResume();
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(MapboxMap map) {
+                mapboxMap = map;
+                configureMap();
+            }
+        });
 
     }
 
@@ -271,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
 
     // He movido aquí todas las configuraciones sobre el mapa por claridad.
     private void configureMap() {
+        IconFactory iconFactory = IconFactory.getInstance(this);
+        final Icon icon = iconFactory.fromResource(R.drawable.markericon);
         mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
         mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
         mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);
@@ -287,12 +295,15 @@ public class MainActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Marcador>() {
             public void done(List<Marcador> objects, ParseException e) {
                 if (e == null) {
+                    mapboxMap.clear();
                     for (Marcador marcador : objects){
                         double longitud = marcador.getLongitud();
                         double latitud = marcador.getLatitud();
+
                         MarkerViewOptions markerViewOptions = new MarkerViewOptions()
                                 .position(new LatLng( latitud, longitud ) );
-                        mapboxMap.addMarker(markerViewOptions);
+                        mapboxMap.addMarker(markerViewOptions
+                                .icon(icon));
                     }
                 } else {
                     Toast.makeText(
@@ -324,9 +335,7 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra("LATITUD", marcador.getLatitud());
                             intent.putExtra("LONGITUD",marcador.getLongitud());
                             String encoded = marcador.getImagen();
-                            byte [] encodeByte = Base64.decode(encoded, Base64.DEFAULT);
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-                            intent.putExtra("IMAGEN",bitmap);
+                            intent.putExtra("IMAGEN",encoded);
                             startActivity(intent);
 
                         } else {

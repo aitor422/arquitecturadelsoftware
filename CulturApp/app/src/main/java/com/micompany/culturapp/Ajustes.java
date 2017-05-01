@@ -1,6 +1,8 @@
 package com.micompany.culturapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +39,6 @@ public class Ajustes extends AppCompatActivity {
         //Crear Lista de ajustes
         List<String> lista = new ArrayList<String>();
         lista.add("Reiniciar Puntuación");
-        lista.add("Donar");
         lista.add("Acerca de");
 
         //Añadir lista
@@ -101,11 +102,12 @@ public class Ajustes extends AppCompatActivity {
                 AlertDialog alert11 = builder1.create();
                 alert11.show();
                 break;
-            //Donar
-            case 1:
-                break;
             //Acerca de
             default:
+                String url = "https://github.com/aitor422/arquitecturadelsoftware";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
                 break;
         }
     }

@@ -2,9 +2,11 @@ package com.micompany.culturapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -108,8 +110,9 @@ public class Contestar extends AppCompatActivity {
         TextView nombre = (TextView) findViewById(R.id.nombre);
         nombre.setText(intent.getStringExtra("NOMBRE"));
         ImageView imageView = (ImageView) findViewById(R.id.imagen);
-        imageView.setImageBitmap( (Bitmap) intent.getParcelableExtra("IMAGEN"));
-
+        byte [] encodeByte = Base64.decode(intent.getStringExtra("IMAGEN"), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        imageView.setImageBitmap(bitmap);
         double latitud = intent.getDoubleExtra("LATITUD", -1);
         double longitud = intent.getDoubleExtra("LONGITUD", -1);
 

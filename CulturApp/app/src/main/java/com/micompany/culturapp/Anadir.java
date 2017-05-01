@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.MapboxAccountManager;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerViewOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -53,12 +55,15 @@ public class Anadir extends AppCompatActivity {
             @Override
             public void onMapReady(MapboxMap map) {
                 mapboxMap = map;
+                IconFactory iconFactory = IconFactory.getInstance(Anadir.this);
+                Icon icon = iconFactory.fromResource(R.drawable.markericon);
                 locationServices = LocationServices.getLocationServices(Anadir.this);
                 final Location lastLocation = locationServices.getLastLocation();
                 final MarkerViewOptions markerViewOptions = new MarkerViewOptions()
                         .position(new LatLng(lastLocation));
 
-                mapboxMap.addMarker(markerViewOptions);
+                mapboxMap.addMarker(markerViewOptions
+                                    .icon(icon));
                 mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lastLocation), 16));
                 marker = mapboxMap.getMarkers().get(0);
                 mapboxMap.setOnScrollListener(new MapboxMap.OnScrollListener() {
