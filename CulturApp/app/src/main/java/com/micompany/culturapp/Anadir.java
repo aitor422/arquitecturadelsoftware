@@ -1,9 +1,11 @@
 package com.micompany.culturapp;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -56,7 +58,8 @@ public class Anadir extends AppCompatActivity {
             public void onMapReady(MapboxMap map) {
                 mapboxMap = map;
                 IconFactory iconFactory = IconFactory.getInstance(Anadir.this);
-                Icon icon = iconFactory.fromResource(R.drawable.markericon);
+                Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.markericon, null);
+                final Icon icon = iconFactory.fromDrawable( drawable, 100, 100);
                 locationServices = LocationServices.getLocationServices(Anadir.this);
                 final Location lastLocation = locationServices.getLastLocation();
                 final MarkerViewOptions markerViewOptions = new MarkerViewOptions()

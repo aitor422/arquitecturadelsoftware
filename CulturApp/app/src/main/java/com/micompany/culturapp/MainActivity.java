@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -278,7 +280,8 @@ public class MainActivity extends AppCompatActivity {
     // He movido aquí todas las configuraciones sobre el mapa por claridad.
     private void configureMap() {
         IconFactory iconFactory = IconFactory.getInstance(this);
-        final Icon icon = iconFactory.fromResource(R.drawable.markericon);
+        Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.markericon, null);
+        final Icon icon = iconFactory.fromDrawable( drawable, 100, 100);
         mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
         mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
         mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);

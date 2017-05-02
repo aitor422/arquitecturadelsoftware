@@ -58,6 +58,16 @@ public class Contestar extends AppCompatActivity {
 
                 String FILENAME = "puntuacion";
                 File fichero = getFileStreamPath(FILENAME);
+                if (!fichero.exists()){
+                    try{
+                        String string = "0-0";
+                        FileOutputStream fos = new FileOutputStream(fichero);
+                        fos.write(string.getBytes());
+                        fos.close();
+                    }catch(IOException e){
+
+                    }
+                }
 
                 try {
                     BufferedReader in = new BufferedReader(new FileReader(fichero));
