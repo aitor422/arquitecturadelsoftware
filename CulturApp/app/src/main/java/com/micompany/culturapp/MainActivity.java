@@ -281,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
     private void configureMap() {
         IconFactory iconFactory = IconFactory.getInstance(this);
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.markericon, null);
-        final Icon icon = iconFactory.fromDrawable( drawable, 100, 100);
+        final Icon icon = iconFactory.fromDrawable( drawable, 100, 108);
         mapboxMap.getMyLocationViewSettings().setPadding(500, 500, 500, 500);
         mapboxMap.getMyLocationViewSettings().setForegroundTintColor(Color.parseColor("#0EB179"));
         mapboxMap.getMyLocationViewSettings().setAccuracyAlpha(0);

@@ -59,7 +59,7 @@ public class Anadir extends AppCompatActivity {
                 mapboxMap = map;
                 IconFactory iconFactory = IconFactory.getInstance(Anadir.this);
                 Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.markericon, null);
-                final Icon icon = iconFactory.fromDrawable( drawable, 100, 100);
+                final Icon icon = iconFactory.fromDrawable( drawable, 100, 108);
                 locationServices = LocationServices.getLocationServices(Anadir.this);
                 final Location lastLocation = locationServices.getLastLocation();
                 final MarkerViewOptions markerViewOptions = new MarkerViewOptions()
